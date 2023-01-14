@@ -67,7 +67,7 @@
                             <span class="badge badge-primary badge-inline">{{ translate('Hot') }}</span>
                         </div>
                         <div class="c-scrollbar-light overflow-auto h-lg-400px p-2 bg-primary rounded-bottom">
-                            <div class="gutters-5 lg-no-gutters row row-cols-2 row-cols-lg-1">
+                            <div class="gutters-5 lg-no-gutters row row-cols-3 row-cols-lg-1">
                             @foreach ($todays_deal_products as $key => $product)
                                 @if ($product != null)
                                 <div class="col mb-2">
@@ -76,7 +76,7 @@
                                             <div class="col-xxl">
                                                 <div class="img">
                                                     <img
-                                                        class="lazyload img-fit h-140px h-lg-80px"
+                                                        class="lazyload img-fit h-80px h-lg-80px"
                                                         src="{{ static_asset('assets/img/placeholder.jpg') }}"
                                                         data-src="{{ uploaded_asset($product->thumbnail_img) }}"
                                                         alt="{{ $product->getTranslation('name') }}"
