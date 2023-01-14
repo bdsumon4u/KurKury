@@ -29,10 +29,10 @@
     </div>
 </section>
 
-<section class="bg-dark py-5 text-light footer-widget">
+<section class="bg-dark py-1 text-light footer-widget">
     <div class="container">
         <div class="row">
-            <div class="col-lg-5 col-xl-4 text-center text-md-left">
+            <div class="d-none d-md-block col-lg-5 col-xl-4 text-center text-md-left">
                 <div class="mt-4">
                     <a href="{{ route('home') }}" class="d-block">
                         @if(get_setting('footer_logo') != null)
@@ -92,7 +92,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4">
+            <div class="d-none d-md-block col-lg-2 col-md-4">
                 <div class="text-center text-md-left mt-4">
                     <h4 class="fs-13 text-uppercase fw-600 border-bottom border-gray-900 pb-2 mb-4">
                         {{ get_setting('widget_one',null,App::getLocale()) }}
@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 col-lg-2">
+            <div class="d-none d-md-block col-md-4 col-lg-2">
                 <div class="text-center text-md-left mt-4">
                     <h4 class="fs-13 text-uppercase fw-600 border-bottom border-gray-900 pb-2 mb-4">
                         {{ translate('My Account') }}
