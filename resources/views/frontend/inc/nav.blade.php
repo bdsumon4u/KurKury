@@ -63,6 +63,14 @@
                         </ul>
                     </li>
                     @endif
+
+                    <li class="list-inline-item d-inline-flex align-items-center d-md-none ml-auto">
+                        <div>
+                            <a href="{{ route('shops.create') }}" class="btn btn-primary btn-sm shadow-md" style="padding-top: 0.216rem; padding-bottom: 0.216rem;">
+                                {{ translate('Be a Seller') }}
+                            </a>
+                        </div>
+                    </li>
                 </ul>
             </div>
 
@@ -77,6 +85,13 @@
                             </a>
                         </li>
                     @endif
+                    <li class="list-inline-item d-none d-md-inline-flex align-items-center mr-3 border-right border-left-0 pr-3 pl-0">
+                        <div>
+                            <a href="{{ route('shops.create') }}" class="btn btn-primary btn-sm shadow-md" style="padding-top: 0.216rem; padding-bottom: 0.216rem;">
+                                {{ translate('Be a Seller') }}
+                            </a>
+                        </div>
+                    </li>
                     @auth
                         @if(isAdmin())
                             <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
