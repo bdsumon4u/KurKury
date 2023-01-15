@@ -181,7 +181,12 @@
         <div class="container">
             <div class="d-flex align-items-center">
 
-                <div class="col-auto col-xl-3 pl-0 pr-3 d-flex align-items-center">
+                <div class="d-lg-none mr-auto ml-0">
+                    <a class="p-2 d-block text-reset" href="{{ route('categories.all') }}">
+                        <i class="las la-bars la-2x {{ areActiveRoutes(['categories.all'],'opacity-100 text-primary')}}"></i>
+                    </a>
+                </div>
+                <div class="col-auto col-xl-3 pl-3 pr-3 d-flex align-items-center">
                     <a class="d-block py-20px mr-3 ml-0" href="{{ route('home') }}">
                         @php
                             $header_logo = get_setting('header_logo');
