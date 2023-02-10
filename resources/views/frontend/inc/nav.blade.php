@@ -15,7 +15,7 @@
             <div class="col-lg-7 col">
                 <ul class="list-inline d-flex justify-content-between justify-content-lg-start mb-0">
                     @if(get_setting('show_language_switcher') == 'on')
-                    <li class="list-inline-item dropdown mr-3" id="lang-change">
+                    <li class="list-inline-item d-none d-md-inline-flex dropdown mr-3" id="lang-change">
                         @php
                             if(Session::has('locale')){
                                 $locale = Session::get('locale', Config::get('app.locale'));
@@ -42,7 +42,7 @@
                     @endif
 
                     @if(get_setting('show_currency_switcher') == 'on')
-                    <li class="list-inline-item dropdown ml-auto ml-lg-0 mr-0" id="currency-change">
+                    <li class="list-inline-item d-none d-md-inline-flex dropdown ml-auto ml-lg-0 mr-0" id="currency-change">
                         @php
                             if(Session::has('currency_code')){
                                 $currency_code = Session::get('currency_code');
@@ -63,43 +63,35 @@
                         </ul>
                     </li>
                     @endif
-
-                    <li class="list-inline-item d-inline-flex align-items-center d-md-none ml-auto">
-                        <div>
-                            <a href="{{ route('shops.create') }}" class="btn btn-primary btn-sm shadow-md" style="padding-top: 0.216rem; padding-bottom: 0.216rem;">
-                                {{ translate('Be a Seller') }}
-                            </a>
-                        </div>
-                    </li>
                 </ul>
             </div>
 
-            <div class="col-5 text-right d-none d-lg-block">
+            <div class="col-5 text-right">
                 <ul class="list-inline mb-0 h-100 d-flex justify-content-end align-items-center">
                     @if (get_setting('helpline_number'))
-                        <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
-                            <a href="tel:{{ get_setting('helpline_number') }}" class="text-reset d-inline-block opacity-60 py-2">
+                        <li class="list-inline-item mr-3 pr-3 pl-0">
+                            <a href="tel:{{ get_setting('helpline_number') }}" class="text-reset d-inline-block opacity-60 py-2" style="white-space: nowrap;">
                                 <i class="la la-phone"></i>
                                 <span>{{ translate('Help line')}}</span>  
                                 <span>{{ get_setting('helpline_number') }}</span>    
                             </a>
                         </li>
                     @endif
-                    <li class="list-inline-item d-none d-md-inline-flex align-items-center mr-3 border-right border-left-0 pr-3 pl-0">
+                    <li class="list-inline-item align-items-center mr-3 pr-3 pl-0">
                         <div>
-                            <a href="{{ route('shops.create') }}" class="btn btn-primary btn-sm shadow-md" style="padding-top: 0.216rem; padding-bottom: 0.216rem;">
+                            <a href="{{ route('shops.create') }}" class="btn btn-primary btn-sm shadow-md" style="padding-top: 0.216rem; padding-bottom: 0.216rem; white-space: nowrap;">
                                 {{ translate('Be a Seller') }}
                             </a>
                         </div>
                     </li>
                     @auth
                         @if(isAdmin())
-                            <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
+                            <li class="list-inline-item d-none d-md-inline-flex mr-3 pr-3 pl-0">
                                 <a href="{{ route('admin.dashboard') }}" class="text-reset d-inline-block opacity-60 py-2">{{ translate('My Panel')}}</a>
                             </li>
                         @else
 
-                            <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0 dropdown">
+                            <li class="list-inline-item d-none d-md-inline-flex mr-3 pr-3 pl-0 dropdown">
                                 <a class="dropdown-toggle no-arrow text-reset" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="false" aria-expanded="false">
                                     <span class="">
                                         <span class="position-relative d-inline-block">
@@ -151,7 +143,7 @@
                                 </div>
                             </li>
 
-                            <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
+                            <li class="list-inline-item d-none d-md-inline-flex mr-3 pr-3 pl-0">
                                 @if (Auth::user()->user_type == 'seller')
                                     <a href="{{ route('seller.dashboard') }}" class="text-reset d-inline-block opacity-60 py-2">{{ translate('My Panel')}}</a>
                                 @else
@@ -159,14 +151,14 @@
                                 @endif
                             </li>
                         @endif
-                        <li class="list-inline-item">
+                        <li class="list-inline-item d-none d-md-inline-flex">
                             <a href="{{ route('logout') }}" class="text-reset d-inline-block opacity-60 py-2">{{ translate('Logout')}}</a>
                         </li>
                     @else
-                        <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
+                        <li class="list-inline-item d-none d-md-inline-flex mr-3 pr-3 pl-0">
                             <a href="{{ route('user.login') }}" class="text-reset d-inline-block opacity-60 py-2">{{ translate('Login')}}</a>
                         </li>
-                        <li class="list-inline-item">
+                        <li class="list-inline-item d-none d-md-inline-flex">
                             <a href="{{ route('user.registration') }}" class="text-reset d-inline-block opacity-60 py-2">{{ translate('Registration')}}</a>
                         </li>
                     @endauth
