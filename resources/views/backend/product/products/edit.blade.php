@@ -126,7 +126,7 @@
                                     <div class="form-control file-amount">{{ translate('Choose File') }}</div>
                                     <input type="hidden" name="photos" value="{{ $product->photos }}" class="selected-files">
                                 </div>
-                                <div class="file-preview box sm">
+                                <div id="sortable" class="file-preview box sm">
                                 </div>
                             </div>
                         </div>
@@ -745,8 +745,22 @@
 @endsection
 
 @section('script')
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <script type="text/javascript">
+    $( function() {
+        $( "#sortable" ).sortable({
+            update: function( event, ui ) {
+                // get data-id attribute of all the .file-preview-item
+                var order = [];
+                $('#sortable .file-preview-item').each(function(){
+                    order.push($(this).attr('data-id'));
+                });
+                // update the input[name="photos"] with comma separated values
+                $('input[name="photos"]').val(order.join(','));
+            }
+        });
+    } );
     $(document).ready(function (){
         show_hide_shipping_div();
     });

@@ -22,6 +22,7 @@
 
 	<!-- aiz core css -->
 	<link rel="stylesheet" href="{{ static_asset('assets/css/vendors.css') }}">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     @if(\App\Models\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
     <link rel="stylesheet" href="{{ static_asset('assets/css/bootstrap-rtl.min.css') }}">
     @endif

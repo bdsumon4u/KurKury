@@ -250,6 +250,11 @@ class AizUploadController extends Controller
     {
         $ids = explode(',', $request->ids);
         $files = Upload::whereIn('id', $ids)->get();
+        $sorted = collect();
+        foreach ($ids as $id) {
+            $sorted->push($files->where('id', $id)->first());
+        }
+        $files = $sorted; unset($sorted); unset($ids);
         $new_file_array = [];
         foreach ($files as $file) {
             $file['file_name'] = my_asset($file->file_name);

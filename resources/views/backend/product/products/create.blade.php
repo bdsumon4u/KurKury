@@ -124,7 +124,7 @@
                                     <div class="form-control file-amount">{{ translate('Choose File') }}</div>
                                     <input type="hidden" name="photos" class="selected-files">
                                 </div>
-                                <div class="file-preview box sm">
+                                <div id="sortable" class="file-preview box sm">
                                 </div>
                                 <small class="text-muted">{{translate('These images are visible in product details page gallery. Use 600x600 sizes images.')}}</small>
                             </div>
@@ -656,8 +656,22 @@
 @endsection
 
 @section('script')
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <script type="text/javascript">
+    $( function() {
+        $( "#sortable" ).sortable({
+            update: function( event, ui ) {
+                // get data-id attribute of all the .file-preview-item
+                var order = [];
+                $('#sortable .file-preview-item').each(function(){
+                    order.push($(this).attr('data-id'));
+                });
+                // update the input[name="photos"] with comma separated values
+                $('input[name="photos"]').val(order.join(','));
+            }
+        });
+    } );
     $('form').bind('submit', function (e) {
 		if ( $(".action-btn").attr('attempted') == 'true' ) {
 			//stop submitting the form because we have already clicked submit.
