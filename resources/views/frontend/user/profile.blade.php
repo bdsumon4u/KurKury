@@ -80,16 +80,16 @@
                                 <span class="w-50 fw-600">{{ translate('Address') }}:</span>
                                 <span class="ml-2">{{ $address->address }}</span>
                             </div>
-                            <div>
+                            {{-- <div>
                                 <span class="w-50 fw-600">{{ translate('Postal Code') }}:</span>
                                 <span class="ml-2">{{ $address->postal_code }}</span>
-                            </div>
+                            </div> --}}
                             <div>
-                                <span class="w-50 fw-600">{{ translate('City') }}:</span>
+                                <span class="w-50 fw-600">{{ translate('Thana') }}:</span>
                                 <span class="ml-2">{{ optional($address->city)->name }}</span>
                             </div>
                             <div>
-                                <span class="w-50 fw-600">{{ translate('State') }}:</span>
+                                <span class="w-50 fw-600">{{ translate('District') }}:</span>
                                 <span class="ml-2">{{ optional($address->state)->name }}</span>
                             </div>
                             <div>

@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-md-4">
                             <select class="form-control aiz-selectpicker" data-live-search="true" id="sort_state" name="sort_state">
-                                <option value="">{{ translate('Select State') }}</option>
+                                <option value="">{{ translate('Select District') }}</option>
                                 @foreach ($states as $state)
                                     <option value="{{ $state->id }}" @if ($sort_state == $state->id) selected @endif {{$sort_state}}>
                                         {{ $state->name }}
@@ -40,7 +40,7 @@
                             <tr>
                                 <th data-breakpoints="lg">#</th>
                                 <th>{{translate('Name')}}</th>
-                                <th>{{translate('State')}}</th>
+                                <th>{{translate('District')}}</th>
                                 <th>{{translate('Area Wise Shipping Cost')}}</th>
                                 <th>{{translate('Show/Hide')}}</th>
                                 <th data-breakpoints="lg" class="text-right">{{translate('Options')}}</th>
@@ -91,7 +91,7 @@
     					</div>
 
                         <div class="form-group">
-                            <label for="country">{{translate('State')}}</label>
+                            <label for="country">{{translate('District')}}</label>
                             <select class="select2 form-control aiz-selectpicker" name="state_id" data-toggle="select2" data-placeholder="Choose ..." data-live-search="true">
                                 @foreach ($states as $state)
                                     <option value="{{ $state->id }}">{{ $state->name }}</option>

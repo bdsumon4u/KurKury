@@ -87,7 +87,7 @@ class SslCommerzController extends Controller
         # CUSTOMER INFORMATION
         $post_data['cus_name'] = "Customer Name";
         $post_data['cus_add1'] = "Customer Address";
-        $post_data['cus_city'] = "Customer City";
+        $post_data['cus_city'] = "Customer Thana";
         $post_data['cus_postcode'] = "1234";
         $post_data['cus_country'] = "Bangladesh";
         $post_data['cus_phone'] = "123456123";

@@ -9,12 +9,12 @@
                         <span class="alpha-6">{{ translate('Address') }}:</span>
                         <span class="strong-600 ml-2">{{ $address->address }}</span>
                     </div>
-                    <div>
+                    {{-- <div>
                         <span class="alpha-6">{{ translate('Postal Code') }}:</span>
                         <span class="strong-600 ml-2">{{ $address->postal_code }}</span>
-                    </div>
+                    </div> --}}
                     <div>
-                        <span class="alpha-6">{{ translate('City') }}:</span>
+                        <span class="alpha-6">{{ translate('Thana') }}:</span>
                         <span class="strong-600 ml-2">{{ $address->city }}</span>
                     </div>
                     <div>

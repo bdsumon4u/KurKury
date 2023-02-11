@@ -84,9 +84,9 @@
                         <ul class="list-unstyled mb-0">
                             <li class=" py-2"><span>{{ translate('Address') }} : {{ $address->address }}</span></li>
                             <li class=" py-2"><span>{{ translate('Country') }} : {{ $address->country->name }}</span></li>
-                            <li class=" py-2"><span>{{ translate('State') }} : {{ $address->state->name }}</span></li>
-                            <li class=" py-2"><span>{{ translate('City') }} : {{ $address->city->name }}</span></li>
-                            <li class=" py-2"><span>{{ translate('Postal Code') }} : {{ $address->postal_code }}</span></li>
+                            <li class=" py-2"><span>{{ translate('District') }} : {{ $address->state->name }}</span></li>
+                            <li class=" py-2"><span>{{ translate('Thana') }} : {{ $address->city->name }}</span></li>
+                            {{-- <li class=" py-2"><span>{{ translate('Postal Code') }} : {{ $address->postal_code }}</span></li> --}}
                             <li class=" py-2"><span>{{ translate('Phone') }} : {{ $address->phone }}</span></li>
                         </ul>
                     @endif

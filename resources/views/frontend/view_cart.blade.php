@@ -114,7 +114,7 @@
                                                                 class="col border-0 text-center flex-grow-1 fs-16 input-number"
                                                                 placeholder="1" value="{{ $cartItem['quantity'] }}"
                                                                 min="{{ $product->min_qty }}"
-                                                                max="{{ $product_stock->qty }}"
+                                                                max="{{ optional($product_stock)->qty }}"
                                                                 onchange="updateQuantity({{ $cartItem['id'] }}, this)">
                                                             <button
                                                                 class="btn col-auto btn-icon btn-sm btn-circle btn-light"
@@ -158,14 +158,9 @@
                                     </a>
                                 </div>
                                 <div class="col-md-6 text-center text-md-right">
-                                    @if (Auth::check())
-                                        <a href="{{ route('checkout.shipping_info') }}" class="btn btn-primary fw-600">
-                                            {{ translate('Continue to Shipping') }}
-                                        </a>
-                                    @else
-                                        <button class="btn btn-primary fw-600"
-                                            onclick="showCheckoutModal()">{{ translate('Continue to Shipping') }}</button>
-                                    @endif
+                                    <a href="{{ route('checkout.shipping_info') }}" class="btn btn-primary fw-600">
+                                        {{ translate('Continue to Shipping') }}
+                                    </a>
                                 </div>
                             </div>
                         </div>

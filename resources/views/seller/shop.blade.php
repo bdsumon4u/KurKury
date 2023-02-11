@@ -100,7 +100,7 @@
                             <div id="map"></div>
                             <ul id="geoData">
                                 <li style="display: none;">{{ translate('Full Address') }}: <span id="location"></span></li>
-                                <li style="display: none;">{{ translate('Postal Code') }}: <span id="postal_code"></span></li>
+                                {{-- <li style="display: none;">{{ translate('Postal Code') }}: <span id="postal_code"></span></li> --}}
                                 <li style="display: none;">{{ translate('Country') }}: <span id="country"></span></li>
                                 <li style="display: none;">{{ translate('Latitude') }}: <span id="lat"></span></li>
                                 <li style="display: none;">{{ translate('Longitude') }}: <span id="lon"></span></li>

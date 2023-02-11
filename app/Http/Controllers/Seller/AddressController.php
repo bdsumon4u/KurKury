@@ -95,7 +95,7 @@ class AddressController extends Controller
 
     public function getStates(Request $request) {
         $states = State::where('status', 1)->where('country_id', $request->country_id)->get();
-        $html = '<option value="">'.translate("Select State").'</option>';
+        $html = '<option value="">'.translate("Select District").'</option>';
         
         foreach ($states as $state) {
             $html .= '<option value="' . $state->id . '">' . $state->name . '</option>';
@@ -106,7 +106,7 @@ class AddressController extends Controller
     
     public function getCities(Request $request) {
         $cities = City::where('status', 1)->where('state_id', $request->state_id)->get();
-        $html = '<option value="">'.translate("Select City").'</option>';
+        $html = '<option value="">'.translate("Select Thana").'</option>';
         
         foreach ($cities as $row) {
             $html .= '<option value="' . $row->id . '">' . $row->getTranslation('name') . '</option>';

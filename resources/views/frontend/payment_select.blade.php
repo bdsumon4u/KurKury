@@ -564,7 +564,7 @@
                         </div>
                         <div class="pt-3">
                             <label class="aiz-checkbox">
-                                <input type="checkbox" required id="agree_checkbox">
+                                <input type="checkbox" required id="agree_checkbox" checked>
                                 <span class="aiz-square-check"></span>
                                 <span>{{ translate('I agree to the') }}</span>
                             </label>

@@ -18,9 +18,7 @@
                     <select class="form-control aiz-selectpicker" data-live-search="true" data-placeholder="{{ translate('Select your country')}}" name="country_id" id="edit_country" required>
                         <option value="">{{ translate('Select your country') }}</option>
                         @foreach (\App\Models\Country::where('status', 1)->get() as $key => $country)
-                        <option value="{{ $country->id }}" @if($address_data->country_id == $country->id) selected @endif>
-                            {{ $country->name }}
-                        </option>
+                            <option value="{{ $country->id }}" @if($country->name == 'Bangladesh') selected @endif>{{ $country->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -29,7 +27,7 @@
 
         <div class="row">
             <div class="col-md-2">
-                <label>{{ translate('State')}}</label>
+                <label>{{ translate('District')}}</label>
             </div>
             <div class="col-md-10">
                 <select class="form-control mb-3 aiz-selectpicker" name="state_id" id="edit_state"  data-live-search="true" required>
@@ -44,7 +42,7 @@
 
         <div class="row">
             <div class="col-md-2">
-                <label>{{ translate('City')}}</label>
+                <label>{{ translate('Thana')}}</label>
             </div>
             <div class="col-md-10">
                 <select class="form-control mb-3 aiz-selectpicker" data-live-search="true" name="city_id" required>
@@ -63,7 +61,7 @@
                 <div id="edit_map"></div>
                 <ul id="geoData">
                     <li style="display: none;">{{ translate('Full Address') }}: <span id="location"></span></li>
-                    <li style="display: none;">{{ translate('Postal Code') }}: <span id="postal_code"></span></li>
+                    {{-- <li style="display: none;">{{ translate('Postal Code') }}: <span id="postal_code"></span></li> --}}
                     <li style="display: none;">{{ translate('Country') }}: <span id="country"></span></li>
                     <li style="display: none;">{{ translate('Latitude') }}: <span id="lat"></span></li>
                     <li style="display: none;">{{ translate('Longitude') }}: <span id="lon"></span></li>
@@ -88,14 +86,14 @@
             </div>
         @endif
         
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-2">
                 <label>{{ translate('Postal code')}}</label>
             </div>
             <div class="col-md-10">
                 <input type="text" class="form-control mb-3" placeholder="{{ translate('Your Postal Code')}}" value="{{ $address_data->postal_code }}" name="postal_code" value="" required>
             </div>
-        </div>
+        </div> --}}
         <div class="row">
             <div class="col-md-2">
                 <label>{{ translate('Phone')}}</label>
