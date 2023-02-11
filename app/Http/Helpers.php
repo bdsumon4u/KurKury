@@ -109,8 +109,9 @@ if (!function_exists('filter_products')) {
 
 //cache products based on category
 if (!function_exists('get_cached_products')) {
-    function get_cached_products($category_id = null)
+    function get_cached_products($category_id = null, $number = null)
     {
+        $number = $number != null ? $number : 12;
         $products = \App\Models\Product::where('published', 1)->where('approved', '1')->where('auction_product', 0);
         $verified_sellers = verified_sellers_id();
         if (get_setting('vendor_system_activation') == 1) {
@@ -124,14 +125,14 @@ if (!function_exists('get_cached_products')) {
         }
 
         if ($category_id != null) {
-            return Cache::remember('products-category-' . $category_id, 86400, function () use ($category_id, $products) {
+            return Cache::remember('products-category-' . $category_id, 86400, function () use ($category_id, $products, $number) {
                 $category_ids = CategoryUtility::children_ids($category_id);
                 $category_ids[] = $category_id;
-                return $products->whereIn('category_id', $category_ids)->latest()->take(12)->get();
+                return $products->whereIn('category_id', $category_ids)->latest()->take($number)->get();
             });
         } else {
-            return Cache::remember('products', 86400, function () use ($products) {
-                return $products->latest()->take(12)->get();
+            return Cache::remember('products', 86400, function () use ($products, $number) {
+                return $products->latest()->take($number)->get();
             });
         }
     }

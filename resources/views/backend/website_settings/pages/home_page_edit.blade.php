@@ -296,7 +296,9 @@
 						<label>{{ translate('Categories') }}</label>
 						<div class="home-categories-target">
 							<input type="hidden" name="types[]" value="home_categories">
+							<input type="hidden" name="types[]" value="home_categories_number">
 							@if (get_setting('home_categories') != null)
+								@php $home_categories_number = json_decode(get_setting('home_categories_number'), true); @endphp
 								@foreach (json_decode(get_setting('home_categories'), true) as $key => $value)
 									<div class="row gutters-5">
 										<div class="col">
@@ -309,6 +311,11 @@
 														@endforeach
 													@endforeach
 					                            </select>
+											</div>
+										</div>
+										<div class="col-2">
+											<div class="form-group">
+												<input type="number" name="home_categories_number[]" class="form-control" placeholder="{{ translate('Number of products') }}" min="-1" value="{{ $home_categories_number[$key] ?? null }}">
 											</div>
 										</div>
 										<div class="col-auto">
@@ -332,6 +339,11 @@
 												<option value="{{ $category->id }}">{{ $category->getTranslation('name') }}</option>
 											@endforeach
 										</select>
+									</div>
+								</div>
+								<div class="col-2">
+									<div class="form-group">
+										<input type="number" name="home_categories_number[]" class="form-control" placeholder="{{ translate('Number of products') }}" min="-1">
 									</div>
 								</div>
 								<div class="col-auto">
