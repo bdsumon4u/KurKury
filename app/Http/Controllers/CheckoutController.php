@@ -171,11 +171,36 @@ class CheckoutController extends Controller
 
     public function store_delivery_info(Request $request)
     {
+        $rules = [
+            'name' => 'required',
+            'address' => 'required',
+            'country_id' => 'required|integer',
+            'state_id' => 'required|integer',
+            'city_id' => 'required|integer',
+            'postal_code' => 'nullable',
+            'phone' => 'required',
+        ];
+
         $carts = $this->cart()->get();
 
         if($carts->isEmpty()) {
             flash(translate('Your cart is empty'))->warning();
             return redirect()->route('home');
+        }
+
+        if ($request->address_id == null) {
+            $address = $request->validate($rules);
+        } else {
+            $address = data_get(
+                Address::findOrFail($request->address_id)->toArray(),
+                array_keys($rules)
+            );
+        }
+
+        foreach ($carts as $key => $cartItem) {
+            $cartItem->address_id = $request->address_id;
+            $cartItem->destination = $address;
+            $cartItem->save();
         }
 
         if (Auth::check()) {
@@ -187,6 +212,7 @@ class CheckoutController extends Controller
                 'country' => Country::find($destination['country_id'])->name,
             ]);
         }
+
         $total = 0;
         $tax = 0;
         $shipping = 0;

@@ -80,7 +80,7 @@
                         <span class="opacity-60 fs-15">{{translate('Subtotal')}}</span>
                         <span class="fw-600 fs-17">{{ single_price($total) }}</span>
                     </div>
-                    <div class="row align-items-center">
+                    {{-- <div class="row align-items-center">
                         <div class="col-md-6 text-center text-md-left order-1 order-md-0">
                             <a href="{{ route('home') }}" class="btn btn-link">
                                 <i class="las la-arrow-left"></i>
@@ -92,7 +92,7 @@
                                 {{ translate('Continue to Shipping')}}
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
