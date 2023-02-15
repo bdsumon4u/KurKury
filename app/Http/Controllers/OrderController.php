@@ -118,6 +118,12 @@ class OrderController extends Controller
             ->get();
 
         $order->viewed = 1;
+        if ($discount = request('discount')) {
+            $order->discount = $discount;
+        }
+        if ($advanced = request('advanced')) {
+            $order->advanced = $advanced;
+        }
         $order->save();
         return view('backend.sales.show', compact('order', 'delivery_boys'));
     }

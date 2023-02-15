@@ -108,7 +108,7 @@
 				@endphp
 				<tr><td class="strong small gry-color">{{ translate('Bill to') }}:</td></tr>
 				<tr><td class="strong">{{ $shipping_address->name }}</td></tr>
-				<tr><td class="gry-color small">{{ $shipping_address->address }}, {{ $shipping_address->city }},  @if(isset(json_decode($order->shipping_address)->state)) {{ json_decode($order->shipping_address)->state }} - @endif {{ $shipping_address->postal_code }}, {{ $shipping_address->country }}</td></tr>
+				<tr><td class="gry-color small">{{ $shipping_address->address }}, {{ $shipping_address->city }}, {{-- @if(isset(json_decode($order->shipping_address)->state)) {{ json_decode($order->shipping_address)->state }} - @endif {{ $shipping_address->postal_code }}, --}} {{ $shipping_address->country }}</td></tr>
 				<tr><td class="gry-color small">{{ translate('Email') }}: {{ $shipping_address->email }}</td></tr>
 				<tr><td class="gry-color small">{{ translate('Phone') }}: {{ $shipping_address->phone }}</td></tr>
 			</table>
@@ -202,13 +202,27 @@
 							            <th class="gry-color text-left">{{ translate('Total Tax') }}</th>
 							            <td class="currency">{{ single_price($order->orderDetails->sum('tax')) }}</td>
 							        </tr>
+									@if($order->discount)
 				                    <tr class="border-bottom">
-							            <th class="gry-color text-left">{{ translate('Coupon Discount') }}</th>
+							            <th class="gry-color text-left">{{ translate('Discount') }}</th>
+							            <td class="currency">{{ single_price($order->discount) }}</td>
+							        </tr>
+									@endif
+									@if($order->coupon_discount)
+				                    <tr class="border-bottom">
+							            <th class="gry-color text-left">{{ translate('Coupon') }}</th>
 							            <td class="currency">{{ single_price($order->coupon_discount) }}</td>
 							        </tr>
+									@endif
+									@if($order->advanced)
+				                    <tr class="border-bottom">
+							            <th class="gry-color text-left">{{ translate('Advanced') }}</th>
+							            <td class="currency">{{ single_price($order->advanced) }}</td>
+							        </tr>
+									@endif
 							        <tr>
-							            <th class="text-left strong">{{ translate('Grand Total') }}</th>
-							            <td class="currency">{{ single_price($order->grand_total) }}</td>
+							            <th class="text-left strong">{{ translate('DUE') }}</th>
+							            <td class="currency">{{ single_price($order->grand_total - $order->discount - $order->advanced) }}</td>
 							        </tr>
 						        </tbody>
 						    </table>

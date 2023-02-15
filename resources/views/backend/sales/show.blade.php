@@ -92,6 +92,20 @@
                             value="{{ $order->tracking_code }}">
                     </div>
                 @endif
+                <div class="col-md-3 ml-auto">
+                    <label for="update_discount">
+                        {{ translate('Discount') }}
+                    </label>
+                    <input type="text" class="form-control" id="update_discount"
+                        value="{{ $order->discount }}">
+                </div>
+                <div class="col-md-3 ml-auto">
+                    <label for="update_advanced">
+                        {{ translate('Advanced') }}
+                    </label>
+                    <input type="text" class="form-control" id="update_advanced"
+                        value="{{ $order->advanced }}">
+                </div>
             </div>
             <div class="mb-3">
                 @php
@@ -108,7 +122,7 @@
                             </strong><br>
                             {{ json_decode($order->shipping_address)->email }}<br>
                             {{ json_decode($order->shipping_address)->phone }}<br>
-                            {{ json_decode($order->shipping_address)->address }}, {{ json_decode($order->shipping_address)->city }}, @if(isset(json_decode($order->shipping_address)->state)) {{ json_decode($order->shipping_address)->state }} - @endif {{ json_decode($order->shipping_address)->postal_code }}<br>
+                            {{ json_decode($order->shipping_address)->address }}, {{ json_decode($order->shipping_address)->city }}, {{-- @if(isset(json_decode($order->shipping_address)->state)) {{ json_decode($order->shipping_address)->state }} - @endif {{ json_decode($order->shipping_address)->postal_code }} --}}<br>
                             {{ json_decode($order->shipping_address)->country }}
                         </address>
                     @else
@@ -307,6 +321,17 @@
                                 {{ single_price($order->orderDetails->sum('shipping_cost')) }}
                             </td>
                         </tr>
+                        @if ($order->discount)
+                        <tr>
+                            <td>
+                                <strong class="text-muted">{{ translate('Discount') }} :</strong>
+                            </td>
+                            <td>
+                                {{ single_price($order->discount) }}
+                            </td>
+                        </tr>
+                        @endif
+                        @if ($order->coupon_discount)
                         <tr>
                             <td>
                                 <strong class="text-muted">{{ translate('Coupon') }} :</strong>
@@ -315,12 +340,23 @@
                                 {{ single_price($order->coupon_discount) }}
                             </td>
                         </tr>
+                        @endif
+                        @if ($order->advanced)
                         <tr>
                             <td>
-                                <strong class="text-muted">{{ translate('TOTAL') }} :</strong>
+                                <strong class="text-muted">{{ translate('Advanced') }} :</strong>
+                            </td>
+                            <td>
+                                {{ single_price($order->advanced) }}
+                            </td>
+                        </tr>
+                        @endif
+                        <tr>
+                            <td>
+                                <strong class="text-muted">{{ translate('DUE') }} :</strong>
                             </td>
                             <td class="text-muted h5">
-                                {{ single_price($order->grand_total) }}
+                                {{ single_price($order->grand_total - $order->advanced - $order->discount) }}
                             </td>
                         </tr>
                     </tbody>
@@ -379,6 +415,24 @@
                 tracking_code: tracking_code
             }, function(data) {
                 AIZ.plugins.notify('success', '{{ translate('Order tracking code has been updated') }}');
+            });
+        });
+        $('#update_discount').on('change', function() {
+            var discount = $('#update_discount').val();
+            $.get('{{ url()->current() }}', {
+                discount: discount
+            }, function(data) {
+                AIZ.plugins.notify('success', '{{ translate('Discount has been updated') }}');
+                window.location.reload();
+            });
+        });
+        $('#update_advanced').on('change', function() {
+            var advanced = $('#update_advanced').val();
+            $.get('{{ url()->current() }}', {
+                advanced: advanced
+            }, function(data) {
+                AIZ.plugins.notify('success', '{{ translate('Advanced has been updated') }}');
+                window.location.reload();
             });
         });
     </script>
