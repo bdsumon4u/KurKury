@@ -174,8 +174,8 @@ class CheckoutController extends Controller
         $rules = [
             'name' => 'required',
             'address' => 'required',
-            'country_id' => 'required|integer',
-            'state_id' => 'required|integer',
+            // 'country_id' => 'required|integer',
+            // 'state_id' => 'required|integer',
             'city_id' => 'required|integer',
             'postal_code' => 'nullable',
             'phone' => 'required',
@@ -190,6 +190,8 @@ class CheckoutController extends Controller
 
         if ($request->address_id == null) {
             $address = $request->validate($rules);
+            $address['country_id'] = Country::where('name', 'Bangladesh')->first()->id ?? null;
+            $address['state_id'] = State::where('name', 'Default')->first()->id ?? null;
         } else {
             $address = data_get(
                 Address::findOrFail($request->address_id)->toArray(),
@@ -203,56 +205,48 @@ class CheckoutController extends Controller
             $cartItem->save();
         }
 
-        if (Auth::check()) {
-            $shipping_info = Address::where('id', $carts[0]['address_id'])->first();
-        } else {
-            $shipping_info = array_merge($destination = $carts[0]['destination'], [
-                'city' => City::find($destination['city_id'])->name,
-                'state' => State::find($destination['state_id'])->name,
-                'country' => Country::find($destination['country_id'])->name,
-            ]);
-        }
+        // if (Auth::check()) {
+        //     $shipping_info = Address::where('id', $carts[0]['address_id'])->first();
+        // } else {
+        //     $shipping_info = array_merge($destination = $carts[0]['destination'], [
+        //         'city' => City::find($destination['city_id'])->name,
+        //         'state' => State::find($destination['state_id'])->name,
+        //         'country' => Country::find($destination['country_id'])->name,
+        //     ]);
+        // }
 
-        $total = 0;
         $tax = 0;
         $shipping = 0;
         $subtotal = 0;
 
-        if ($carts && count($carts) > 0) {
-            foreach ($carts as $key => $cartItem) {
-                $product = Product::find($cartItem['product_id']);
-                $tax += cart_product_tax($cartItem, $product,false) * $cartItem['quantity'];
-                $subtotal += cart_product_price($cartItem, $product, false, false) * $cartItem['quantity'];
+        foreach ($carts as $key => $cartItem) {
+            $product = Product::find($cartItem['product_id']);
+            $tax += cart_product_tax($cartItem, $product,false) * $cartItem['quantity'];
+            $subtotal += cart_product_price($cartItem, $product, false, false) * $cartItem['quantity'];
 
-                if(get_setting('shipping_type') != 'carrier_wise_shipping' || $request['shipping_type_' . $product->user_id] == 'pickup_point'){
-                    if ($request['shipping_type_' . $product->user_id] == 'pickup_point') {
-                        $cartItem['shipping_type'] = 'pickup_point';
-                        $cartItem['pickup_point'] = $request['pickup_point_id_' . $product->user_id];
-                    } else {
-                        $cartItem['shipping_type'] = 'home_delivery';
-                    }
-                    $cartItem['shipping_cost'] = 0;
-                    if ($cartItem['shipping_type'] == 'home_delivery') {
-                        $cartItem['shipping_cost'] = getShippingCost($carts, $key);
-                    }
+            if(get_setting('shipping_type') != 'carrier_wise_shipping' || $request['shipping_type_' . $product->user_id] == 'pickup_point'){
+                if ($request['shipping_type_' . $product->user_id] == 'pickup_point') {
+                    $cartItem['shipping_type'] = 'pickup_point';
+                    $cartItem['pickup_point'] = $request['pickup_point_id_' . $product->user_id];
+                } else {
+                    $cartItem['shipping_type'] = 'home_delivery';
                 }
-                else{
-                    $cartItem['shipping_type'] = 'carrier';
-                    $cartItem['carrier_id'] = $request['carrier_id_' . $product->user_id];
-                    $cartItem['shipping_cost'] = getShippingCost($carts, $key, $cartItem['carrier_id']);
+                $cartItem['shipping_cost'] = 0;
+                if ($cartItem['shipping_type'] == 'home_delivery') {
+                    $cartItem['shipping_cost'] = getShippingCost($carts, $key);
                 }
-
-                $shipping += $cartItem['shipping_cost'];
-                $cartItem->save();
             }
-            $total = round($subtotal + $tax + $shipping);
+            else{
+                $cartItem['shipping_type'] = 'carrier';
+                $cartItem['carrier_id'] = $request['carrier_id_' . $product->user_id];
+                $cartItem['shipping_cost'] = getShippingCost($carts, $key, $cartItem['carrier_id']);
+            }
 
-            return view('frontend.payment_select', compact('carts', 'shipping_info', 'total'));
-
-        } else {
-            flash(translate('Your Cart was empty'))->warning();
-            return redirect()->route('home');
+            $shipping += $cartItem['shipping_cost'];
+            $cartItem->save();
         }
+
+        return $this->checkout($request);
     }
 
     public function apply_coupon_code(Request $request)
