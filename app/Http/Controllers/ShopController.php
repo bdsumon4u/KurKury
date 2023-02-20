@@ -68,6 +68,7 @@ class ShopController extends Controller
                 $user = new User;
                 $user->name = $request->name;
                 $user->email = $request->email;
+                $user->phone = $request->phone;
                 $user->user_type = "seller";
                 $user->password = Hash::make($request->password);
                 $user->save();
@@ -88,6 +89,7 @@ class ShopController extends Controller
             $shop = new Shop;
             $shop->user_id = $user->id;
             $shop->name = $request->shop_name;
+            $shop->phone = $request->phone;
             $shop->address = $request->address;
             $shop->slug = preg_replace('/\s+/', '-', $request->shop_name);
 
