@@ -59,14 +59,14 @@
 
                 @if($num_todays_deal > 0)
                 <div class="col-lg-2 order-3 mt-3 mt-lg-0">
-                    <div class="bg-white rounded shadow-sm">
+                    <div class="bg-white">
                         <div class="bg-soft-primary rounded-top p-3 d-flex align-items-center justify-content-center">
                             <span class="fw-600 fs-16 mr-2 text-truncate">
                                 {{ translate('Todays Deal') }}
                             </span>
                             <span class="badge badge-primary badge-inline">{{ translate('Hot') }}</span>
                         </div>
-                        <div class="c-scrollbar-light overflow-auto h-lg-400px p-2 bg-success rounded-bottom">
+                        <div class="c-scrollbar-light overflow-auto h-lg-400px py-2 rounded-bottom" style="background-color: var(--light) !important;">
                             <div class="gutters-5 lg-no-gutters row row-cols-3 row-cols-lg-1">
                             @foreach ($todays_deal_products as $key => $product)
                                 @if ($product != null)
