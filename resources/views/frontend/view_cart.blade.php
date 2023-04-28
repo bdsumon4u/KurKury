@@ -2,30 +2,7 @@
 
 @section('content')
 
-<section class="pt-5 mb-4">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-8 mx-auto">
-                <div class="row aiz-steps arrow-divider">
-                    <div class="col active">
-                        <div class="text-center text-primary">
-                            <i class="la-3x mb-2 las la-shopping-cart"></i>
-                            <h3 class="fs-14 fw-600 d-none d-lg-block">{{ translate('1. My Cart')}}</h3>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="text-center">
-                            <i class="la-3x mb-2 opacity-50 las la-check-circle"></i>
-                            <h3 class="fs-14 fw-600 d-none d-lg-block opacity-50">{{ translate('2. Confirmation')}}</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="mb-4" id="cart-summary">
+<section class="my-4" id="cart-summary">
     <div class="container">
         @if( $carts && count($carts) > 0 )
             <form id="checkout-form" action="{{ route('checkout.store_delivery_info') }}" method="post">
@@ -33,6 +10,211 @@
                 <input type="hidden" name="payment_option" value="cash_on_delivery">
                 <div class="row">
                     <div class="col-md-8 mx-auto">
+                        <div class="shadow-sm bg-white p-3 p-lg-4 rounded text-left">
+                            <div shipping-info>
+                                <div class="card-header p-3">
+                                    <h5 class="fs-16 fw-600 mb-0">{{translate('Shipping Info')}}</h5>
+                                </div>
+                                @if(Auth::check())
+                                    <div class="shadow-sm bg-white rounded mb-4">
+                                        <div class="row gutters-5">
+                                            @foreach (Auth::user()->addresses as $key => $address)
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="aiz-megabox d-block bg-white mb-0">
+                                                        <input type="radio" name="address_id" value="{{ $address->id }}" @if ($address->set_default)
+                                                            checked
+                                                                @endif required>
+                                                        <span class="d-flex p-3 aiz-megabox-elem">
+                                                <span class="aiz-rounded-check flex-shrink-0 mt-1"></span>
+                                                <span class="flex-grow-1 pl-3 text-left">
+                                                    <div>
+                                                        <span class="opacity-60">{{ translate('Address') }}:</span>
+                                                        <span class="fw-600 ml-2">{{ $address->address }}</span>
+                                                    </div>
+                                                    {{-- <div>
+                                                        <span class="opacity-60">{{ translate('Postal Code') }}:</span>
+                                                        <span class="fw-600 ml-2">{{ $address->postal_code }}</span>
+                                                    </div> --}}
+                                                    <div>
+                                                        <span class="opacity-60">{{ translate('Thana') }}:</span>
+                                                        <span class="fw-600 ml-2">{{ optional($address->city)->name }}</span>
+                                                    </div>
+                                                    {{-- <div>
+                                                        <span class="opacity-60">{{ translate('District') }}:</span>
+                                                        <span class="fw-600 ml-2">{{ optional($address->state)->name }}</span>
+                                                    </div> --}}
+                                                    {{-- <div>
+                                                        <span class="opacity-60">{{ translate('Country') }}:</span>
+                                                        <span class="fw-600 ml-2">{{ optional($address->country)->name }}</span>
+                                                    </div> --}}
+                                                    <div>
+                                                        <span class="opacity-60">{{ translate('Phone') }}:</span>
+                                                        <span class="fw-600 ml-2">{{ $address->phone }}</span>
+                                                    </div>
+                                                </span>
+                                            </span>
+                                                    </label>
+                                                    <div class="dropdown position-absolute right-0 top-0">
+                                                        <button class="btn bg-gray px-2" type="button" data-toggle="dropdown">
+                                                            <i class="la la-ellipsis-v"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                            <a class="dropdown-item" onclick="edit_address('{{$address->id}}')">
+                                                                {{ translate('Edit') }}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                            <input type="hidden" name="checkout_type" value="logged">
+                                            <div class="col-md-6 mx-auto mb-3" >
+                                                <div class="border p-3 rounded mb-3 c-pointer text-center bg-white h-100 d-flex flex-column justify-content-center" onclick="add_new_address()">
+                                                    <i class="las la-plus la-2x mb-3"></i>
+                                                    <div class="alpha-7">{{ translate('Add New Address') }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="shadow-sm bg-white rounded mb-4">
+                                        <div class="pt-3">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>{{ translate('Name')}}</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <input type="text" class="form-control mb-3" id="name" name="name" placeholder="{{ translate('Your Name') }}" required>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>{{ translate('Phone')}}</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <input type="text" class="form-control mb-3" placeholder="{{ translate('+880')}}" name="phone" value="" required>
+                                                </div>
+                                            </div>
+                                            {{-- <div class="row d-none">
+                                                <div class="col-md-2">
+                                                    <label>{{ translate('Country')}}</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="mb-3">
+                                                        <select class="form-control aiz-selectpicker" data-live-search="true" data-placeholder="{{ translate('Select your country') }}" name="country_id" required>
+                                                            <option value="">{{ translate('Select your country') }}</option>
+                                                            @foreach (\App\Models\Country::where('status', 1)->get() as $key => $country)
+                                                                <option value="{{ $country->id }}" @if($country->name == 'Bangladesh') selected @endif>{{ $country->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row d-none">
+                                                <div class="col-md-2">
+                                                    <label>{{ translate('District')}}</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <select class="form-control mb-3 aiz-selectpicker" data-live-search="true" name="state_id" required>
+
+                                                    </select>
+                                                </div>
+                                            </div> --}}
+
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>{{ translate('Thana')}}</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="form-control mb-2">
+                                                        @foreach (\App\Models\City::where('status', 1)->get() as $key => $city)
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio" name="city_id" id="inlineRadio{{$city->id}}" value="{{$city->id}}">
+                                                                <label class="form-check-label" for="inlineRadio{{$city->id}}">{{$city->name}}</label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            @if (get_setting('google_map') == 1)
+                                                <div class="row">
+                                                    <input id="searchInput" class="controls" type="text" placeholder="{{translate('Enter a location')}}">
+                                                    <div id="map"></div>
+                                                    <ul id="geoData">
+                                                        <li style="display: none;">Full Address: <span id="location"></span></li>
+                                                        {{-- <li style="display: none;">Postal Code: <span id="postal_code"></span></li> --}}
+                                                        <li style="display: none;">Country: <span id="country"></span></li>
+                                                        <li style="display: none;">Latitude: <span id="lat"></span></li>
+                                                        <li style="display: none;">Longitude: <span id="lon"></span></li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-2" id="">
+                                                        <label for="exampleInputuname">Longitude</label>
+                                                    </div>
+                                                    <div class="col-md-10" id="">
+                                                        <input type="text" class="form-control mb-3" id="longitude" name="longitude" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2" id="">
+                                                        <label for="exampleInputuname">Latitude</label>
+                                                    </div>
+                                                    <div class="col-md-10" id="">
+                                                        <input type="text" class="form-control mb-3" id="latitude" name="latitude" readonly="">
+                                                    </div>
+                                                </div>
+                                            @endif
+
+                                            <input type="hidden" class="form-control mb-3" name="postal_code" value="">
+
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>{{ translate('Address')}}</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <textarea class="form-control mb-" placeholder="{{ translate('Your Address')}}" rows="2" name="address" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row d-none">
+                                                <div class="col-md-2">
+                                                    <label>{{ translate('Any additional info?') }}</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <textarea name="additional_info" rows="5" class="form-control" placeholder="{{ translate('Type your text') }}"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            {{-- ... --}}
+                            <div class="row align-items-center pt-">
+                                <div class="col-6">
+                                    <a href="{{ route('home') }}" class="link link--style-3">
+                                        <i class="las la-arrow-left"></i>
+                                        {{ translate('Return to shop') }}
+                                    </a>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <button type="button" onclick="submitOrder(this)"
+                                        class="btn btn-primary fw-600">{{ translate('Complete Order') }}</button>
+                                </div>
+                            </div>
+                            <div class="pt-3">
+                                <label class="aiz-checkbox">
+                                    <input type="checkbox" required id="agree_checkbox" checked>
+                                    <span class="aiz-square-check"></span>
+                                    <span>{{ translate('I agree to the') }}</span>
+                                </label>
+                                <a href="{{ route('terms') }}">{{ translate('terms and conditions') }}</a>,
+                                <a href="{{ route('returnpolicy') }}">{{ translate('return policy') }}</a> &
+                                <a href="{{ route('privacypolicy') }}">{{ translate('privacy policy') }}</a>
+                            </div>
+                        </div>
+                        {{-- ... --}}
                         <div class="shadow-sm bg-white p-3 p-lg-4 rounded text-left">
                             <div class="mb-4">
                                 <div class="row gutters-5 d-none d-lg-flex border-bottom mb-3 pb-3">
@@ -114,215 +296,11 @@
                                 <span class="fw-600 fs-17">{{ single_price($total) }}</span>
                             </div>
                         </div>
-                        {{-- ... --}}
-                        <div class="shadow-sm bg-white p-3 p-lg-4 rounded text-left">
-                            <div shipping-info>
-                                <div class="card-header p-3">
-                                    <h5 class="fs-16 fw-600 mb-0">{{translate('Shipping Info')}}</h5>
-                                </div>
-                                @if(Auth::check())
-                                    <div class="shadow-sm bg-white rounded mb-4">
-                                        <div class="row gutters-5">
-                                            @foreach (Auth::user()->addresses as $key => $address)
-                                                <div class="col-md-6 mb-3">
-                                                    <label class="aiz-megabox d-block bg-white mb-0">
-                                                        <input type="radio" name="address_id" value="{{ $address->id }}" @if ($address->set_default)
-                                                            checked
-                                                                @endif required>
-                                                        <span class="d-flex p-3 aiz-megabox-elem">
-                                                <span class="aiz-rounded-check flex-shrink-0 mt-1"></span>
-                                                <span class="flex-grow-1 pl-3 text-left">
-                                                    <div>
-                                                        <span class="opacity-60">{{ translate('Address') }}:</span>
-                                                        <span class="fw-600 ml-2">{{ $address->address }}</span>
-                                                    </div>
-                                                    {{-- <div>
-                                                        <span class="opacity-60">{{ translate('Postal Code') }}:</span>
-                                                        <span class="fw-600 ml-2">{{ $address->postal_code }}</span>
-                                                    </div> --}}
-                                                    <div>
-                                                        <span class="opacity-60">{{ translate('Thana') }}:</span>
-                                                        <span class="fw-600 ml-2">{{ optional($address->city)->name }}</span>
-                                                    </div>
-                                                    {{-- <div>
-                                                        <span class="opacity-60">{{ translate('District') }}:</span>
-                                                        <span class="fw-600 ml-2">{{ optional($address->state)->name }}</span>
-                                                    </div> --}}
-                                                    {{-- <div>
-                                                        <span class="opacity-60">{{ translate('Country') }}:</span>
-                                                        <span class="fw-600 ml-2">{{ optional($address->country)->name }}</span>
-                                                    </div> --}}
-                                                    <div>
-                                                        <span class="opacity-60">{{ translate('Phone') }}:</span>
-                                                        <span class="fw-600 ml-2">{{ $address->phone }}</span>
-                                                    </div>
-                                                </span>
-                                            </span>
-                                                    </label>
-                                                    <div class="dropdown position-absolute right-0 top-0">
-                                                        <button class="btn bg-gray px-2" type="button" data-toggle="dropdown">
-                                                            <i class="la la-ellipsis-v"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" onclick="edit_address('{{$address->id}}')">
-                                                                {{ translate('Edit') }}
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                            <input type="hidden" name="checkout_type" value="logged">
-                                            <div class="col-md-6 mx-auto mb-3" >
-                                                <div class="border p-3 rounded mb-3 c-pointer text-center bg-white h-100 d-flex flex-column justify-content-center" onclick="add_new_address()">
-                                                    <i class="las la-plus la-2x mb-3"></i>
-                                                    <div class="alpha-7">{{ translate('Add New Address') }}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @else
-                                    <div class="shadow-sm bg-white rounded mb-4">
-                                        <div class="p-3">
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <label>{{ translate('Name')}}</label>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <input type="text" class="form-control mb-3" id="name" name="name" required>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <label>{{ translate('Phone')}}</label>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <input type="text" class="form-control mb-3" placeholder="{{ translate('+880')}}" name="phone" value="" required>
-                                                </div>
-                                            </div>
-                                            {{-- <div class="row d-none">
-                                                <div class="col-md-2">
-                                                    <label>{{ translate('Country')}}</label>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <div class="mb-3">
-                                                        <select class="form-control aiz-selectpicker" data-live-search="true" data-placeholder="{{ translate('Select your country') }}" name="country_id" required>
-                                                            <option value="">{{ translate('Select your country') }}</option>
-                                                            @foreach (\App\Models\Country::where('status', 1)->get() as $key => $country)
-                                                                <option value="{{ $country->id }}" @if($country->name == 'Bangladesh') selected @endif>{{ $country->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row d-none">
-                                                <div class="col-md-2">
-                                                    <label>{{ translate('District')}}</label>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <select class="form-control mb-3 aiz-selectpicker" data-live-search="true" name="state_id" required>
-
-                                                    </select>
-                                                </div>
-                                            </div> --}}
-
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <label>{{ translate('Thana')}}</label>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <select class="form-control mb-3 aiz-selectpicker" data-live-search="true" name="city_id" required>
-                                                        <option value="">{{ translate('Select your city') }}</option>
-                                                        @foreach (\App\Models\City::where('status', 1)->get() as $key => $city)
-                                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            @if (get_setting('google_map') == 1)
-                                                <div class="row">
-                                                    <input id="searchInput" class="controls" type="text" placeholder="{{translate('Enter a location')}}">
-                                                    <div id="map"></div>
-                                                    <ul id="geoData">
-                                                        <li style="display: none;">Full Address: <span id="location"></span></li>
-                                                        {{-- <li style="display: none;">Postal Code: <span id="postal_code"></span></li> --}}
-                                                        <li style="display: none;">Country: <span id="country"></span></li>
-                                                        <li style="display: none;">Latitude: <span id="lat"></span></li>
-                                                        <li style="display: none;">Longitude: <span id="lon"></span></li>
-                                                    </ul>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-2" id="">
-                                                        <label for="exampleInputuname">Longitude</label>
-                                                    </div>
-                                                    <div class="col-md-10" id="">
-                                                        <input type="text" class="form-control mb-3" id="longitude" name="longitude" readonly="">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2" id="">
-                                                        <label for="exampleInputuname">Latitude</label>
-                                                    </div>
-                                                    <div class="col-md-10" id="">
-                                                        <input type="text" class="form-control mb-3" id="latitude" name="latitude" readonly="">
-                                                    </div>
-                                                </div>
-                                            @endif
-
-                                            <input type="hidden" class="form-control mb-3" name="postal_code" value="">
-
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <label>{{ translate('Address')}}</label>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <textarea class="form-control mb-3" placeholder="{{ translate('Your Address')}}" rows="2" name="address" required></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <label>{{ translate('Any additional info?') }}</label>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <textarea name="additional_info" rows="5" class="form-control" placeholder="{{ translate('Type your text') }}"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
                     </div>
 
                     <div class="col-md-4 mx-auto">
                         <div id="cart_summary">
                             @include('frontend.partials.cart_summary')
-                        </div>
-
-                        <div class="pt-3">
-                            <label class="aiz-checkbox">
-                                <input type="checkbox" required id="agree_checkbox" checked>
-                                <span class="aiz-square-check"></span>
-                                <span>{{ translate('I agree to the') }}</span>
-                            </label>
-                            <a href="{{ route('terms') }}">{{ translate('terms and conditions') }}</a>,
-                            <a href="{{ route('returnpolicy') }}">{{ translate('return policy') }}</a> &
-                            <a href="{{ route('privacypolicy') }}">{{ translate('privacy policy') }}</a>
-                        </div>
-
-                        <div class="row align-items-center pt-3">
-                            <div class="col-6">
-                                <a href="{{ route('home') }}" class="link link--style-3">
-                                    <i class="las la-arrow-left"></i>
-                                    {{ translate('Return to shop') }}
-                                </a>
-                            </div>
-                            <div class="col-6 text-right">
-                                <button type="button" onclick="submitOrder(this)"
-                                    class="btn btn-primary fw-600">{{ translate('Complete Order') }}</button>
-                            </div>
                         </div>
                     </div>
                 </div>
