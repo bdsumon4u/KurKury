@@ -131,11 +131,15 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '{{ env('FACEBOOK_PIXEL_ID') }}');
+        <?php foreach (explode(',', env('FACEBOOK_PIXEL_ID')) as $key => $id): ?>
+            fbq('init', '{{ trim($id) }}');
+        <?php endforeach; ?>
         fbq('track', 'PageView');
     </script>
     <noscript>
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ env('FACEBOOK_PIXEL_ID') }}&ev=PageView&noscript=1"/>
+        <?php foreach (explode(',', env('FACEBOOK_PIXEL_ID')) as $key => $id): ?>
+            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ trim($id) }}&ev=PageView&noscript=1"/>
+        <?php endforeach; ?>
     </noscript>
     <!-- End Facebook Pixel Code -->
 @endif
