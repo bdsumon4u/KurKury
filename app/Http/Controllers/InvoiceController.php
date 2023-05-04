@@ -69,6 +69,6 @@ class InvoiceController extends Controller
             'direction' => $direction,
             'text_align' => $text_align,
             'not_text_align' => $not_text_align
-        ], [], $config)->download('order-'.$order->code.'.pdf');
+        ], [], $config)->stream('order-'.$order->code.'.pdf');
     }
 }
