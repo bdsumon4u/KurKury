@@ -16,7 +16,7 @@
 
                 @foreach ($carts as $key => $cartItem)
                     @php
-                        $product = \App\Models\Product::find($cartItem['product_id']);
+                        $product = $cartItem['product'];
                     @endphp
                     @if ($cartItem->coupon_applied == 1)
                         @php
@@ -51,7 +51,7 @@
             @endphp
             @foreach ($carts as $key => $cartItem)
                 @php
-                    $product = \App\Models\Product::find($cartItem['product_id']);
+                    $product = $cartItem['product'];
                     $total_point += $product->earn_point * $cartItem['quantity'];
                 @endphp
             @endforeach
@@ -77,7 +77,7 @@
                 @endphp
                 @foreach ($carts as $key => $cartItem)
                     @php
-                        $product = \App\Models\Product::find($cartItem['product_id']);
+                        $product = $cartItem['product'];
                         $subtotal += cart_product_price($cartItem, $product, false, false) * $cartItem['quantity'];
                         $tax += cart_product_tax($cartItem, $product, false) * $cartItem['quantity'];
                         $product_shipping_cost = $cartItem['shipping_cost'];

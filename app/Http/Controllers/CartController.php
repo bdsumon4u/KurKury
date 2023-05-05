@@ -426,9 +426,16 @@ class CartController extends Controller
             $carts = Cart::where('temp_user_id', $temp_user_id)->get();
         }
 
+        $products = Product::whereIn('id', $carts->pluck('product_id'))->get();
+        $carts->map(function ($cartItem) use ($products) {
+            $product = $products->where('id', $cartItem->product_id)->first();
+            $cartItem['product'] = $product;
+            return $cartItem;
+        });
         return array(
             'cart_count' => count($carts),
-            'cart_view' => view('frontend.partials.cart_details', compact('carts'))->render(),
+            'cart_summary' => view('frontend.partials.cart_summary', compact('carts'))->render(),
+            'cart_details' => view('frontend.partials.cart_details', compact('carts'))->render(),
             'nav_cart_view' => view('frontend.partials.cart')->render(),
         );
     }
