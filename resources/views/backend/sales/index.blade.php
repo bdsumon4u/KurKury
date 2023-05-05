@@ -102,11 +102,10 @@
                             {{ count($order->orderDetails) }}
                         </td>
                         <td>
-                            @if ($order->user != null)
-                                {{ $order->user->name }}
-                            @else
-                                Guest ({{ $order->guest_id }})
-                            @endif
+                            @php $shipping_address = json_decode($order->shipping_address) @endphp
+                            <span>{{ $shipping_address->name }}</span> <br>
+                            <span>{{ $shipping_address->phone }}</span> <br>
+                            <span class="text-danger">{{ $order->additional_info }}</span>
                         </td>
                         <td>
                             @if($order->shop)

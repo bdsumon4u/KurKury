@@ -186,10 +186,6 @@
                                 <td class="text-right">
                                     {{ translate(ucfirst(str_replace('_', ' ', $order->payment_type))) }}</td>
                             </tr>
-                            <tr>
-                                <td class="text-main text-bold">{{ translate('Additional Info') }}</td>
-                                <td class="text-right">{{ $order->additional_info }}</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -292,6 +288,12 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="clearfix float-left">
+                <div class="form-group">
+                    <label for="additional-info">{{ translate('Additional Info') }}</label>
+                    <textarea class="form-control" id="additional-info" rows="10" cols="40">{{ $order->additional_info }}</textarea>
                 </div>
             </div>
             <div class="clearfix float-right">
@@ -423,7 +425,7 @@
                 discount: discount
             }, function(data) {
                 AIZ.plugins.notify('success', '{{ translate('Discount has been updated') }}');
-                window.location.reload();
+                // window.location.reload();
             });
         });
         $('#update_advanced').on('change', function() {
@@ -432,7 +434,14 @@
                 advanced: advanced
             }, function(data) {
                 AIZ.plugins.notify('success', '{{ translate('Advanced has been updated') }}');
-                window.location.reload();
+                // window.location.reload();
+            });
+        });
+        $('#additional-info').on('change', function() {
+            $.get('{{ url()->current() }}', {
+                additional_info: $(this).val()
+            }, function(data) {
+                AIZ.plugins.notify('success', '{{ translate('Additional info has been updated') }}');
             });
         });
     </script>
