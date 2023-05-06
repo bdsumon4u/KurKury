@@ -8,7 +8,12 @@
         </div>
         <div class="card-body">
             <div class="row gutters-5">
-                <div class="col text-md-left text-center">
+                <div class="col d-flex justify-content-center align-items-center">
+                    @php
+                        $removedXML = '<?xml version="1.0" standalone="no"?>';
+                    @endphp
+
+                    {!! str_replace($removedXML,"", \Milon\Barcode\Facades\DNS1DFacade::getBarcodeSVG("{$order->code}", 'C39', 3, 50)) !!}
                 </div>
                 @php
                     $delivery_status = $order->delivery_status;
@@ -20,7 +25,7 @@
                 @if ($order->seller_id == $admin_user_id || get_setting('product_manage_by_admin') == 1)
                     
                     @if (addon_is_activated('delivery_boy'))
-                        <div class="col-md-3 ml-auto">
+                        <div class="col-md-3">
                             <label for="assign_deliver_boy">{{ translate('Assign Deliver Boy') }}</label>
                             @if (($delivery_status == 'pending' || $delivery_status == 'confirmed' || $delivery_status == 'picked_up') && auth()->user()->can('assign_delivery_boy_for_orders'))
                                 <select class="form-control aiz-selectpicker" data-live-search="true"
@@ -40,7 +45,7 @@
                         </div>
                     @endif
 
-                    <div class="col-md-3 ml-auto">
+                    <div class="col-md-3">
                         <label for="update_payment_status">{{ translate('Payment Status') }}</label>
                         @if (auth()->user()->can('update_order_payment_status'))
                             <select class="form-control aiz-selectpicker" data-minimum-results-for-search="Infinity"
@@ -56,7 +61,7 @@
                             <input type="text" class="form-control" value="{{ $payment_status }}" disabled>
                         @endif
                     </div>
-                    <div class="col-md-3 ml-auto">
+                    <div class="col-md-3">
                         <label for="update_delivery_status">{{ translate('Delivery Status') }}</label>
                         @if (auth()->user()->can('update_order_delivery_status') && $delivery_status != 'delivered' && $delivery_status != 'cancelled')
                             <select class="form-control aiz-selectpicker" data-minimum-results-for-search="Infinity"
@@ -84,7 +89,7 @@
                             <input type="text" class="form-control" value="{{ $delivery_status }}" disabled>
                         @endif
                     </div>
-                    <div class="col-md-3 ml-auto">
+                    <div class="col-md-3">
                         <label for="update_tracking_code">
                             {{ translate('Tracking Code (optional)') }}
                         </label>
@@ -92,26 +97,20 @@
                             value="{{ $order->tracking_code }}">
                     </div>
                 @endif
-                <div class="col-md-3 ml-auto">
+                <div class="col-md-3">
                     <label for="update_discount">
                         {{ translate('Discount') }}
                     </label>
                     <input type="text" class="form-control" id="update_discount"
                         value="{{ $order->discount }}">
                 </div>
-                <div class="col-md-3 ml-auto">
+                <div class="col-md-3">
                     <label for="update_advanced">
                         {{ translate('Advanced') }}
                     </label>
                     <input type="text" class="form-control" id="update_advanced"
                         value="{{ $order->advanced }}">
                 </div>
-            </div>
-            <div class="mb-3">
-                @php
-                    $removedXML = '<?xml version="1.0" encoding="UTF-8"?>';
-                @endphp
-                {!! str_replace($removedXML, '', QrCode::size(100)->generate($order->code)) !!}
             </div>
             <div class="row gutters-5">
                 <div class="col text-md-left text-center">
@@ -148,7 +147,7 @@
                         </a>
                     @endif
                 </div>
-                <div class="col-md-4 ml-auto">
+                <div class="col-md-4">
                     <table>
                         <tbody>
                             <tr>

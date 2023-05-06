@@ -538,6 +538,13 @@
                                     </a>
                                 </li>
                             @endcan
+                            {{-- @can('barcode_scanning_report') --}}
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('scanned_sales.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['scanned_sales.index'])}}">
+                                        <span class="aiz-side-nav-text">{{ translate('Barcode Scanning') }}</span>
+                                    </a>
+                                </li>
+                            {{-- @endcan --}}
                             @can('products_stock_report')
                                 <li class="aiz-side-nav-item">
                                     <a href="{{ route('stock_report.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['stock_report.index'])}}">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\CommissionHistory;
+use App\Models\Order;
 use App\Models\Wallet;
 use App\Models\User;
 use App\Models\Search;
@@ -22,6 +23,23 @@ class ReportController extends Controller
         $this->middleware(['permission:user_search_report'])->only('user_search_report');
         $this->middleware(['permission:commission_history_report'])->only('commission_history');
         $this->middleware(['permission:wallet_transaction_report'])->only('wallet_transaction_history');
+    }
+
+    public function scan_code(Request $request)
+    {
+        if ($request->has('si') && $request->has('code')) {
+            if ($order = Order::where('code', $request->code)->first()) {
+                return [
+                    'tr' => view('backend.reports.partials.scanned_item', [
+                        'si' => $request->si,
+                        'order' => $order,
+                    ])->render(),
+                ];
+            }
+            return null;
+        }
+
+        return view('backend.reports.scanned');
     }
 
     public function stock_report(Request $request)
