@@ -337,6 +337,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     //Reports
     Route::controller(ReportController::class)->group(function () {
         Route::get('/scanned_sales', 'scan_code')->name('scanned_sales.index');
+        Route::get('/products_quantity', 'products_quantity')->name('products_quantity.index');
         Route::get('/in_house_sale_report', 'in_house_sale_report')->name('in_house_sale_report.index');
         Route::get('/seller_sale_report', 'seller_sale_report')->name('seller_sale_report.index');
         Route::get('/stock_report', 'stock_report')->name('stock_report.index');

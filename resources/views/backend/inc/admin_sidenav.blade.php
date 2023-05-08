@@ -545,6 +545,13 @@
                                     </a>
                                 </li>
                             {{-- @endcan --}}
+                            {{-- @can('products_quantity_report') --}}
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('products_quantity.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['products_quantity.index'])}}">
+                                        <span class="aiz-side-nav-text">{{ translate('Products Quantity') }}</span>
+                                    </a>
+                                </li>
+                            {{-- @endcan --}}
                             @can('products_stock_report')
                                 <li class="aiz-side-nav-item">
                                     <a href="{{ route('stock_report.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['stock_report.index'])}}">

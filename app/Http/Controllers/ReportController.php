@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Search;
 use App\Models\Shop;
 use Auth;
+use Illuminate\Support\Carbon;
 
 class ReportController extends Controller
 {
@@ -52,6 +53,28 @@ class ReportController extends Controller
         }
         $products = $products->paginate(15);
         return view('backend.reports.stock_report', compact('products','sort_by'));
+    }
+
+    public function products_quantity(Request $request)
+    {
+        $date = $request->date;
+        $sort_search = null;
+        $delivery_status = null;
+        $payment_status = '';
+
+        $orders = Order::with('orderDetails.product')->select('id');
+        if ($request->status) {
+            $orders->where('delivery_status', $request->status);
+        }
+        if ($request->date) {
+            $orders->whereBetween('created_at', [Carbon::parse($request->date)->startOfDay(), Carbon::parse($request->date)->endOfDay()]);
+        } else {
+            $orders->whereBetween('created_at', [now()->startOfDay(), now()->endOfDay()]);
+        }
+
+        return view('backend.reports.products_quantity', [
+            'products' => $orders->get()->map->orderDetails->flatten()->map->product->flatten()->groupBy('name')->map->count()->toArray(),
+        ]);
     }
 
     public function in_house_sale_report(Request $request)
