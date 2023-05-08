@@ -67,9 +67,9 @@ class ReportController extends Controller
             $orders->where('delivery_status', $request->status);
         }
         if ($request->date) {
-            $orders->whereBetween('created_at', [Carbon::parse($request->date)->startOfDay(), Carbon::parse($request->date)->endOfDay()]);
+            $orders->whereBetween('status_at', [Carbon::parse($request->date)->startOfDay(), Carbon::parse($request->date)->endOfDay()]);
         } else {
-            $orders->whereBetween('created_at', [now()->startOfDay(), now()->endOfDay()]);
+            $orders->whereBetween('status_at', [now()->startOfDay(), now()->endOfDay()]);
         }
 
         return view('backend.reports.products_quantity', [

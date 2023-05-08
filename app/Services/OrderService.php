@@ -18,6 +18,7 @@ class OrderService{
         $order = Order::findOrFail($request->order_id);
         $order->delivery_viewed = '0';
         $order->delivery_status = $request->status;
+        $order->status_at = now();
         $order->save();
 
         if ($request->status == 'cancelled' && $order->payment_type == 'wallet') {

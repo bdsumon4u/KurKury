@@ -1,0 +1,3 @@
+ALTER TABLE `orders` ADD COLUMN `status_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER `delivery_status`;
+
+COMMIT;
