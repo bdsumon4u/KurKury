@@ -65,14 +65,15 @@
                                 </div>
                             </div>
                         </th>
-                        <th>{{ translate('Order Code') }}</th>
-                        <th data-breakpoints="md">{{ translate('Num. of Products') }}</th>
+                        <th>{{ translate('SI') }}</th>
+                        <th>{{ translate('Code') }}</th>
+                        <th data-breakpoints="md">{{ translate('No. Products') }}</th>
                         <th data-breakpoints="md">{{ translate('Customer') }}</th>
                         <th data-breakpoints="md">{{ translate('Seller') }}</th>
                         <th data-breakpoints="md">{{ translate('Amount') }}</th>
-                        <th data-breakpoints="md">{{ translate('Delivery Status') }}</th>
-                        <th data-breakpoints="md">{{ translate('Payment method') }}</th>
-                        <th data-breakpoints="md">{{ translate('Payment Status') }}</th>
+                        <th data-breakpoints="md">{{ translate('D. Status') }}</th>
+                        <th data-breakpoints="md">{{ translate('P. Method') }}</th>
+                        <th data-breakpoints="md">{{ translate('P. Status') }}</th>
                         @if (addon_is_activated('refund_request'))
                         <th>{{ translate('Refund') }}</th>
                         @endif
@@ -91,6 +92,9 @@
                                     </label>
                                 </div>
                             </div>
+                        </td>
+                        <td>
+                            {{ ($key+1) + ($orders->currentPage() - 1)*$orders->perPage() }}
                         </td>
                         <td>
                             {{ $order->code }}@if($order->viewed == 0) <span class="badge badge-inline badge-info">{{translate('New')}}</span>@endif
