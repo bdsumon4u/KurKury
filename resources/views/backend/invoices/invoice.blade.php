@@ -186,7 +186,7 @@
                                 $removedXML = '<?xml version="1.0" standalone="no"?>';
                             @endphp
 
-                            {!! str_replace($removedXML,"", \Milon\Barcode\Facades\DNS1DFacade::getBarcodeSVG("{$order->code}", 'C39', 3, 50)) !!}
+                            {!! str_replace($removedXML,"", \Milon\Barcode\Facades\DNS1DFacade::getBarcodeSVG("{$order->code}", 'C128', 3, 50)) !!}
 			            </td>
 			            <td>
 					        <table class="text-right sm-padding small strong">
