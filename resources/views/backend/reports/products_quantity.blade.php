@@ -20,12 +20,9 @@
                     <div class="col-lg-3 ml-auto">
                         <select class="form-control aiz-selectpicker" name="status" id="status">
                             <option value="">{{translate('D. Status')}}</option>
-                            <option value="pending" @if (request('status') == 'pending') selected @endif>{{translate('Pending')}}</option>
-                            <option value="confirmed" @if (request('status') == 'confirmed') selected @endif>{{translate('Confirmed')}}</option>
-                            <option value="picked_up" @if (request('status') == 'picked_up') selected @endif>{{translate('Picked Up')}}</option>
-                            <option value="on_the_way" @if (request('status') == 'on_the_way') selected @endif>{{translate('On The Way')}}</option>
-                            <option value="delivered" @if (request('status') == 'delivered') selected @endif>{{translate('Delivered')}}</option>
-                            <option value="cancelled" @if (request('status') == 'cancelled') selected @endif>{{translate('Cancel')}}</option>
+                            @foreach (config('app.statuses') as $status)
+                                <option value="{{ $value = \Illuminate\Support\Str::snake($status) }}" @if (request('status') == $value) selected @endif>{{translate($status)}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-auto">

@@ -15,6 +15,18 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'statuses' => [
+        'Pending',
+        'Payment Pending',
+        'Confirmed',
+        'Picked Up',
+        'On The Way',
+        'Delivered',
+        'Cancelled',
+        'Returned',
+        'Lost',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

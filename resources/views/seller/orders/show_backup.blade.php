@@ -31,18 +31,9 @@ $payment_status = $order->orderDetails->where('seller_id', Auth::user()->id)->fi
                 <div class="form-group">
                     <select class="form-control aiz-selectpicker form-control-sm"
                         data-minimum-results-for-search="Infinity" id="update_delivery_status">
-                        <option value="pending" @if ($status == 'pending') selected @endif>
-                            {{ translate('Pending') }}</option>
-                        <option value="confirmed" @if ($status == 'confirmed') selected @endif>
-                            {{ translate('Confirmed') }}</option>
-                        <option value="picked_up" @if ($status == 'picked_up') selected @endif>
-                            {{ translate('Picked Up') }}</option>
-                        <option value="on_the_way" @if ($status == 'on_the_way') selected @endif>
-                            {{ translate('On The Way') }}</option>
-                        <option value="delivered" @if ($status == 'delivered') selected @endif>
-                            {{ translate('Delivered') }}</option>
-                        <option value="cancelled" @if ($status == 'cancelled') selected @endif>
-                            {{ translate('Cancel') }}</option>
+                        @foreach (config('app.statuses') as $status)
+                            <option value="{{ $value = \Illuminate\Support\Str::snake($status) }}" @if ($status == $value) selected @endif>{{translate($status)}}</option>
+                        @endforeach
                     </select>
                     <label>{{ translate('Delivery Status') }}</label>
                 </div>
