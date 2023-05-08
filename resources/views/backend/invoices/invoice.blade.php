@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
 	<style media="all">
         @page {
-			margin: 0;
+			margin:1cm;
 			padding:0;
 		}
 		body{
