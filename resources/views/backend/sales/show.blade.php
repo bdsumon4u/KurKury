@@ -10,11 +10,10 @@
             <div class="row gutters-5">
                 <div class="col d-flex justify-content-center align-items-center">
                     @php
-                        $removedXML = '<?xml version="1.0" standalone="no"?>';
+                        $removedXML = '<?xml version="1.0" encoding="UTF-8"?>';
                     @endphp
 
-					<img src="https://barcode.tec-it.com/barcode.ashx?data={{$order->code}}&code=Code128&translate-esc=true" alt="Barcode">
-                    {{-- {!! str_replace($removedXML,"", \Milon\Barcode\Facades\DNS1DFacade::getBarcodeSVG("{$order->code}", 'C128', 3, 50)) !!} --}}
+                    {!! str_replace($removedXML,"", QrCode::size(100)->generate($order->code)) !!}
                 </div>
                 @php
                     $delivery_status = $order->delivery_status;

@@ -187,11 +187,10 @@
 			        <tr>
 			            <td class="text-left">
                             @php
-                                $removedXML = '<?xml version="1.0" standalone="no"?>';
+                                $removedXML = '<?xml version="1.0" encoding="UTF-8"?>';
                             @endphp
 
-							<img src="https://barcode.tec-it.com/barcode.ashx?data={{$order->code}}&code=Code128&translate-esc=true" alt="Barcode">
-                            {{-- {!! str_replace($removedXML,"", \Milon\Barcode\Facades\DNS1DFacade::getBarcodeSVG("{$order->code}", 'C128', 3, 50)) !!} --}}
+                            {!! str_replace($removedXML,"", QrCode::size(100)->generate($order->code)) !!}
 			            </td>
 			            <td>
 					        <table class="text-right sm-padding small strong">
