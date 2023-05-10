@@ -162,6 +162,11 @@
                             <a class="btn btn-soft-info btn-icon btn-circle btn-sm" href="{{ route('invoice.download', $order->id) }}" title="{{ translate('Download Invoice') }}">
                                 <i class="las la-download"></i>
                             </a>
+                            @can('cancel_order')
+                                <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-cancel" data-href="{{route('orders.cancel', $order->id)}}" title="{{ translate('Cancel') }}">
+                                    <i class="las la-times"></i>
+                                </a>
+                            @endcan
                             @can('delete_order')
                                 <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="{{route('orders.destroy', $order->id)}}" title="{{ translate('Delete') }}">
                                     <i class="las la-trash"></i>
@@ -185,6 +190,7 @@
 
 @section('modal')
     @include('modals.delete_modal')
+    @include('modals.cancel_modal')
 @endsection
 
 @section('script')

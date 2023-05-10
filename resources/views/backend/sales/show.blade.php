@@ -13,7 +13,8 @@
                         $removedXML = '<?xml version="1.0" standalone="no"?>';
                     @endphp
 
-                    {!! str_replace($removedXML,"", \Milon\Barcode\Facades\DNS1DFacade::getBarcodeSVG("{$order->code}", 'C128', 3, 50)) !!}
+					<img src="https://barcode.tec-it.com/barcode.ashx?data={{$order->code}}&code=Code128&translate-esc=true" alt="Barcode">
+                    {{-- {!! str_replace($removedXML,"", \Milon\Barcode\Facades\DNS1DFacade::getBarcodeSVG("{$order->code}", 'C128', 3, 50)) !!} --}}
                 </div>
                 @php
                     $delivery_status = $order->delivery_status;

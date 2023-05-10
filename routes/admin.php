@@ -319,6 +319,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
 
         Route::post('/bulk-order-status', 'bulk_order_status')->name('bulk-order-status');
 
+        Route::get('/orders/cancel/{id}', 'cancel')->name('orders.cancel');
         Route::get('/orders/destroy/{id}', 'destroy')->name('orders.destroy');
         Route::post('/bulk-order-delete', 'bulk_order_delete')->name('bulk-order-delete');
 

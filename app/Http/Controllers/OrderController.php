@@ -356,6 +356,17 @@ class OrderController extends Controller
         //
     }
 
+    public function cancel(Request $request, $id)
+    {
+        // change delivery_status to cancelled.
+        $order = Order::findOrFail($id);
+        $order->delivery_status = 'cancelled';
+        $order->status_at = now();
+        $order->save();
+        flash(translate('Order has been deleted successfully'))->success();
+        return back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *
