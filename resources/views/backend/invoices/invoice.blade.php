@@ -118,18 +118,22 @@
 			<table class="padding text-left small border-bottom">
 				<thead>
 	                <tr class="gry-color" style="background: #eceff4;">
-	                    <th width="35%" class="text-left">{{ translate('Product Name') }}</th>
-						<th width="15%" class="text-left">{{ translate('Delivery Type') }}</th>
+						<th width="15%">Image</th>
+	                    <th width="31%" class="text-left">{{ translate('Product Name') }}</th>
+						<th width="13%" class="text-left">{{ translate('Delivery Type') }}</th>
 	                    <th width="10%" class="text-left">{{ translate('Qty') }}</th>
-	                    <th width="15%" class="text-left">{{ translate('Unit Price') }}</th>
+	                    <th width="13%" class="text-left">{{ translate('Unit Price') }}</th>
 	                    <th width="10%" class="text-left">{{ translate('Tax') }}</th>
-	                    <th width="15%" class="text-right">{{ translate('Total') }}</th>
+	                    <th width="13%" class="text-right">{{ translate('Total') }}</th>
 	                </tr>
 				</thead>
 				<tbody class="strong">
 	                @foreach ($order->orderDetails as $key => $orderDetail)
 		                @if ($orderDetail->product != null)
 							<tr class="">
+								<td>
+									<img src='{{ uploaded_asset($orderDetail->product->thumbnail_img)}}' height='100' width='100' alt='Image'>
+								</td>
 								<td>
                                     {{ $orderDetail->product->name }} 
                                     @if($orderDetail->variation != null) ({{ $orderDetail->variation }}) @endif
