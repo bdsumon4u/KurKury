@@ -130,6 +130,9 @@ class OrderController extends Controller
         if ($additional_info = request('additional_info')) {
             $order->additional_info = $additional_info;
         }
+        if (($field = request('field')) && ($value = request('value'))) {
+            $order->shipping_address = json_encode([$field => $value]+json_decode($order->shipping_address, true));
+        }
         $order->save();
         return view('backend.sales.show', compact('order', 'delivery_boys'));
     }

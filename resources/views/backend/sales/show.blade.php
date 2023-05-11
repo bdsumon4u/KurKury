@@ -101,12 +101,14 @@
                 <div class="col text-md-left text-center">
                     @if(json_decode($order->shipping_address))
                         <address>
-                            <strong class="text-main">
-                                {{ json_decode($order->shipping_address)->name }}
-                            </strong><br>
-                            {{ json_decode($order->shipping_address)->email }}<br>
-                            {{ json_decode($order->shipping_address)->phone }}<br>
-                            {{ json_decode($order->shipping_address)->address }}, {{ json_decode($order->shipping_address)->city }}, {{-- @if(isset(json_decode($order->shipping_address)->state)) {{ json_decode($order->shipping_address)->state }} - @endif {{ json_decode($order->shipping_address)->postal_code }} --}}<br>
+                            <span title="name" contenteditable="true">
+                                <strong class="text-main">
+                                    {{ json_decode($order->shipping_address)->name }}
+                                </strong>
+                            </span><br>
+                            <span title="email" contenteditable="true">{{ json_decode($order->shipping_address)->email }}</span><br>
+                            <span title="phone" contenteditable="true">{{ json_decode($order->shipping_address)->phone }}</span><br>
+                            <span title="address" contenteditable="true">{{ json_decode($order->shipping_address)->address }}</span> {{--, {{ json_decode($order->shipping_address)->city }}, @if(isset(json_decode($order->shipping_address)->state)) {{ json_decode($order->shipping_address)->state }} - @endif {{ json_decode($order->shipping_address)->postal_code }} --}}<br>
                             {{ json_decode($order->shipping_address)->country }}
                         </address>
                     @else
@@ -426,6 +428,16 @@
                 additional_info: $(this).val()
             }, function(data) {
                 AIZ.plugins.notify('success', '{{ translate('Additional info has been updated') }}');
+            });
+        });
+        $('address>span[title][contenteditable]').on('blur', function() {
+            var field = $(this).attr('title');
+            var value = $(this).text();
+            $.get('{{ url()->current() }}', {
+                field: field,
+                value: value
+            }, function(data) {
+                AIZ.plugins.notify('success', '{{ translate('Info has been updated') }}');
             });
         });
     </script>
