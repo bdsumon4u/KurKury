@@ -25,4 +25,9 @@
         <span class="badge badge-inline badge-danger">{{translate('Unpaid')}}</span>
         @endif
     </td>
+    <th class="d-print-none">
+        <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm" title="{{ translate('Remove') }}">
+            <i class="las la-times"></i>
+        </a>
+    </th>
 </tr>

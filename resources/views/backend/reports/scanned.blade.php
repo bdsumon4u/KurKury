@@ -29,6 +29,7 @@
                     <th data-breakpoints="md">{{ translate('D. Status') }}</th>
                     <th data-breakpoints="md">{{ translate('P. Method') }}</th>
                     <th data-breakpoints="md">{{ translate('P. Status') }}</th>
+                    <th class="d-print-none">{{ translate('Action') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,6 +63,14 @@
             });
 
             return false;
+        });
+
+        $(document).on('click', '.btn-soft-danger', function(ev) {
+            ev.preventDefault();
+            $(this).closest('tr').remove();
+            $('table > tbody > tr').each(function(i, tr) {
+                $(tr).find('td:first-child').html(i+1);
+            });
         });
     });
 </script>
