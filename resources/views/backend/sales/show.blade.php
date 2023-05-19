@@ -341,7 +341,7 @@
                         @endif
                         <tr>
                             <td>
-                                <strong class="text-muted">{{ translate('DUE') }} :</strong>
+                                <strong class="text-muted h5">{{ translate('DUE') }} :</strong>
                             </td>
                             <td class="text-muted h5">
                                 {{ single_price($order->grand_total - $order->advanced - $order->discount) }}

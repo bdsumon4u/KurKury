@@ -226,8 +226,8 @@
 							        </tr>
 									@endif
 							        <tr>
-							            <th class="text-left strong">{{ translate('DUE') }}</th>
-							            <td class="currency">{{ single_price($order->grand_total - $order->discount - $order->advanced) }}</td>
+							            <th class="text-left h5">{{ translate('DUE') }}</th>
+							            <td class="currency h5">{{ single_price($order->grand_total - $order->discount - $order->advanced) }}</td>
 							        </tr>
 						        </tbody>
 						    </table>
