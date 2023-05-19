@@ -58,8 +58,8 @@
                 }
                 // remove tr.footable-empty
                 $('.card-body table tbody tr.footable-empty').remove();
-                // append data.tr to table tbody
-                $('.card-body table tbody').append(data.tr);
+                // prepend data.tr to table tbody
+                $('.card-body table tbody').prepend(data.tr);
                 // fooTable
                 // AIZ.plugins.fooTable();
                 $('#search').focus().val('');
