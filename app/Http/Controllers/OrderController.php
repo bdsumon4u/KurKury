@@ -92,8 +92,11 @@ class OrderController extends Controller
         if ($request->search) {
             $sort_search = $request->search;
             $orders = $orders->where(function ($query) use ($sort_search) {
-                $query->where('code', 'like', '%' . $sort_search . '%')
-                    ->orWhere('shipping_address->phone', 'like', '%' . $sort_search . '%');
+                if (strlen($sort_search) < 11) {
+                    $query->where('code', $sort_search);
+                } else {
+                    $query->where('shipping_address->phone', $sort_search);
+                }
             });
         }
         if ($request->payment_status != null) {
