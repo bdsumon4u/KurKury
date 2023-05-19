@@ -37,6 +37,9 @@
             </tbody>
         </table>
     </div>
+    <div class="card-footer p-1">
+        <h4 class="my-1">Total Amount: <span id="aMount"></span></h4>
+    </div>
 </div>
 
 @endsection
@@ -60,6 +63,7 @@
                 // fooTable
                 // AIZ.plugins.fooTable();
                 $('#search').focus().val('');
+                reCalculate();
             });
 
             return false;
@@ -71,7 +75,16 @@
             $('table > tbody > tr').each(function(i, tr) {
                 $(tr).find('td:first-child').html(i+1);
             });
+            reCalculate();
         });
+
+        function reCalculate() {
+            var total_amount = 0;
+            $('.card table tbody tr td:nth-child(4)').each((cell, el) => {
+                return total_amount += new Number($(el).text().trim());
+            });
+            $('#aMount').text(total_amount);
+        }
     });
 </script>
 @endsection
