@@ -306,7 +306,7 @@
                                 <strong class="text-muted">{{ translate('Shipping') }} :</strong>
                             </td>
                             <td>
-                                {{ single_price($order->orderDetails->sum('shipping_cost')) }}
+                                <input id="shipping" type="number" name="shipping" value="{{ single_price($order->shipping ?? $order->orderDetails->sum('shipping_cost')) }}" class="w-80px">
                             </td>
                         </tr>
                         @if ($order->discount)
@@ -428,6 +428,14 @@
                 additional_info: $(this).val()
             }, function(data) {
                 AIZ.plugins.notify('success', '{{ translate('Additional info has been updated') }}');
+            });
+        });
+        $('#shipping').on('change', function() {
+            $.get('{{ url()->current() }}', {
+                shipping: $(this).val()
+            }, function(data) {
+                AIZ.plugins.notify('success', '{{ translate('Shipping cost has been updated') }}');
+                window.location.reload();
             });
         });
         $('address>span[title][contenteditable]').on('blur', function() {

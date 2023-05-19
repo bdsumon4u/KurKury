@@ -130,6 +130,13 @@ class OrderController extends Controller
         if ($additional_info = request('additional_info')) {
             $order->additional_info = $additional_info;
         }
+        if ($shipping = request('shipping')) {
+            if ($order->shipping) { // shipping was added previously
+                $order->grand_total = $order->grand_total - $order->shipping + $order->orderDetails->sum('shipping_cost');
+            }
+            $order->shipping = $shipping; // also change grand_total in order
+            $order->grand_total = $order->grand_total + $shipping - $order->orderDetails->sum('shipping_cost');
+        }
         if (($field = request('field')) && ($value = request('value'))) {
             $order->shipping_address = json_encode([$field => $value]+json_decode($order->shipping_address, true));
         }
