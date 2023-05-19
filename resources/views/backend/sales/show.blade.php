@@ -63,7 +63,7 @@
                     </div>
                     <div class="col-md-3">
                         <label for="update_delivery_status">{{ translate('Delivery Status') }}</label>
-                        @if (auth()->user()->can('update_order_delivery_status') && $delivery_status != 'delivered' && $delivery_status != 'cancelled')
+                        @if (auth()->user()->can('update_order_delivery_status') && $delivery_status != '!delivered' && $delivery_status != '!cancelled')
                             <select class="form-control aiz-selectpicker" data-minimum-results-for-search="Infinity"
                                 id="update_delivery_status">
                                 @foreach (config('app.statuses') as $status)
