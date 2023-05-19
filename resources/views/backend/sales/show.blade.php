@@ -5,6 +5,9 @@
     <div class="card">
         <div class="card-header">
             <h1 class="h2 fs-16 mb-0">{{ translate('Order Details') }}</h1>
+            <form action="{{ route('all_orders.index') }}">
+                <input class="form-control w-260px" name="search" placeholder="Search Order">
+            </form>
         </div>
         <div class="card-body">
             <div class="row gutters-5">
