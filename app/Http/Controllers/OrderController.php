@@ -374,7 +374,9 @@ class OrderController extends Controller
             $orderDetail = $order->orderDetails->where('id', $dtl)->first();
             // stock er kono kaj korini
             $added = $qty - $orderDetail->quantity;
+            $price = $orderDetail->price / $orderDetail->quantity;
             $orderDetail->quantity = $qty;
+            $orderDetail->price = $price * $orderDetail->quantity;
             $orderDetail->save();
             $order->unsetRelation('orderDetails');
             $order->load('orderDetails');
