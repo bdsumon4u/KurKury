@@ -373,10 +373,12 @@ class OrderController extends Controller
         if (($qty = request('quantity')) && ($dtl = request('detail'))) {
             $orderDetail = $order->orderDetails->where('id', $dtl)->first();
             // stock er kono kaj korini
+            $added = $qty - $orderDetail->quantity;
             $orderDetail->quantity = $qty;
             $orderDetail->save();
             $order->unsetRelation('orderDetails');
             $order->load('orderDetails');
+            $order->grand_total = $order->grand_total + ($orderDetail->price + $orderDetail->tax) * $added;
         }
         $order_shipping_address = json_decode($order->shipping_address);
         $delivery_boys = User::where('city', $order_shipping_address->city)
