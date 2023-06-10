@@ -269,7 +269,8 @@
                                     <td class="text-center">
                                         <form action="{{ url()->current() }}">
                                             <input type="hidden" name="detail" value="{{$orderDetail->id}}">
-                                            <input type="text" class="w-80px text-center py-2" name="quantity" value="{{ $orderDetail->quantity }}">
+                                            <input type="text" class="w-80px text-center py-1" name="quantity" value="{{ $orderDetail->quantity }}">
+                                            <span class="text-center">Change and Press Enter</span>
                                         </form>
                                     </td>
                                     <td class="text-center">
