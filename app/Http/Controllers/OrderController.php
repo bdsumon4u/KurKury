@@ -370,6 +370,14 @@ class OrderController extends Controller
             $order->unsetRelation('orderDetails');
             $order->load('orderDetails');
         }
+        if (($qty = request('quantity')) && ($dtl = request('detail'))) {
+            $orderDetail = $order->orderDetails->where('id', $dtl)->first();
+            // stock er kono kaj korini
+            $orderDetail->quantity = $qty;
+            $orderDetail->save();
+            $order->unsetRelation('orderDetails');
+            $order->load('orderDetails');
+        }
         $order_shipping_address = json_decode($order->shipping_address);
         $delivery_boys = User::where('city', $order_shipping_address->city)
             ->where('user_type', 'delivery_boy')

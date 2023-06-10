@@ -267,7 +267,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        {{ $orderDetail->quantity }}
+                                        <input type="text" class="quantity" name="quantity[{{$orderDetail->id}}]" data-id="{{$orderDetail->id}}" value="{{ $orderDetail->quantity }}">
                                     </td>
                                     <td class="text-center">
                                         {{ single_price($orderDetail->price / $orderDetail->quantity) }}
@@ -447,6 +447,15 @@
                 shipping: $(this).val()
             }, function(data) {
                 AIZ.plugins.notify('success', '{{ translate('Shipping cost has been updated') }}');
+                window.location.reload();
+            });
+        });
+        $('.quantity').on('change', function() {
+            $.get('{{ url()->current() }}', {
+                quantity: $(this).val(),
+                detail: $(this).attr('data-id')
+            }, function(data) {
+                AIZ.plugins.notify('success', '{{ translate('Quantity has been updated') }}');
                 window.location.reload();
             });
         });
