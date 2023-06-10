@@ -267,7 +267,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <input type="text" class="quantity w-80px" name="quantity[{{$orderDetail->id}}]" data-id="{{$orderDetail->id}}" value="{{ $orderDetail->quantity }}">
+                                        <input type="text" class="quantity w-80px text-center py-2" name="quantity[{{$orderDetail->id}}]" data-id="{{$orderDetail->id}}" value="{{ $orderDetail->quantity }}">
                                     </td>
                                     <td class="text-center">
                                         {{ single_price($orderDetail->price / $orderDetail->quantity) }}
