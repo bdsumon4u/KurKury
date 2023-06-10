@@ -451,6 +451,7 @@
             });
         });
         $('.quantity').on('change', function() {
+            console.log('change', $(this).val(), $(this).attr('data-id'));
             $.get('{{ url()->current() }}', {
                 quantity: $(this).val(),
                 detail: $(this).attr('data-id')
