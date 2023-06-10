@@ -28,11 +28,10 @@ class ReportController extends Controller
 
     public function scan_code(Request $request)
     {
-        if ($request->has('si') && $request->has('code')) {
+        if ($request->has('code')) {
             if ($order = Order::where('code', $request->code)->first()) {
                 return [
                     'tr' => view('backend.reports.partials.scanned_item', [
-                        'si' => $request->si,
                         'order' => $order,
                     ])->render(),
                 ];

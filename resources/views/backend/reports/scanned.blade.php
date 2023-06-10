@@ -2,6 +2,34 @@
 
 @section('content')
 
+<style>
+    @print {
+        @page {
+            margin:0;
+            padding:0;
+        }
+		body{
+			font-size: 0.875rem;
+            font-weight: normal;
+			padding:0;
+			margin:0; 
+		}
+        .d-print-none,
+        .aiz-topbar,
+        .aiz-topbar-item,
+        .aiz-main-content div:last-child {
+            display: none !important;
+            opacity: 0 !important;
+        }
+        .aiz-content-wrapper {
+            padding: 0 !important;
+        }
+        .table td, .table th {
+            padding: 0.5rem !important;
+        }
+    }
+</style>
+
 <div class="card">
     <div class="card-header row gutters-5 d-print-none">
         <div class="col">
@@ -25,9 +53,9 @@
                     <th>{{ translate('S.I.') }}</th>
                     <th>{{ translate('Code') }}</th>
                     <th data-breakpoints="md">{{ translate('Customer') }}</th>
+                    <th data-breakpoints="md">{{ translate('Note') }}</th>
                     <th data-breakpoints="md">{{ translate('Amount') }}</th>
                     <th data-breakpoints="md">{{ translate('D. Status') }}</th>
-                    <th data-breakpoints="md">{{ translate('P. Method') }}</th>
                     <th data-breakpoints="md">{{ translate('P. Status') }}</th>
                     <th class="d-print-none">{{ translate('Action') }}</th>
                 </tr>
@@ -52,7 +80,7 @@
             var code = $('#search').blur().val();
 
             var trLength = $('.card-body table tbody tr:not(.footable-empty)').length;
-            $.get('{{ url()->current() }}', {code:code, si: trLength+1}, function(data) {
+            $.get('{{ url()->current() }}', {code:code}, function(data) {
                 if (! data.tr) {
                     return;
                 }
@@ -72,15 +100,17 @@
         $(document).on('click', '.btn-soft-danger', function(ev) {
             ev.preventDefault();
             $(this).closest('tr').remove();
-            $('table > tbody > tr').each(function(i, tr) {
-                $(tr).find('td:first-child').html(i+1);
-            });
             reCalculate();
         });
 
         function reCalculate() {
+            var trows = $('table > tbody > tr');
+            trows.each(function(i, tr) {
+                $(tr).find('td:first-child').html(i+1);
+            });
+
             var total_amount = 0;
-            $('.card table tbody tr td:nth-child(4)').each((cell, el) => {
+            $('.card table tbody tr td:nth-child(5)').each((cell, el) => {
                 return total_amount += new Number($(el).text().trim());
             });
             $('#aMount').text(total_amount);
