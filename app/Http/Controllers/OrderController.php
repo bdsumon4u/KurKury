@@ -354,7 +354,51 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $order = Order::with('orderDetails')->findOrFail(decrypt($id));
+        if ($od = request('delete')) {
+            if ($order->orderDetails->count() == 1) {
+                flash(translate('Order must have at least one product'))->warning();
+                return redirect()->back();
+            }
+            $shipping_cost = $order->orderDetails->sum('shipping_cost');
+            $itemwise_cost = $shipping_cost / ($order->orderDetails->count()-1);
+            foreach ($order->orderDetails as $orderDetail) {
+                if ($orderDetail->id == $od) {
+                    $order->grand_total = $order->grand_total - ($orderDetail->price + $orderDetail->tax) * $orderDetail->quantity;
+                    $orderDetail->delete();
+                } else {
+                    $orderDetail->shipping_cost = $itemwise_cost;
+                    $orderDetail->save();
+                }
+            }
+        }
+        $order_shipping_address = json_decode($order->shipping_address);
+        $delivery_boys = User::where('city', $order_shipping_address->city)
+            ->where('user_type', 'delivery_boy')
+            ->get();
+
+        $order->viewed = 1;
+        if ($discount = request('discount')) {
+            $order->discount = $discount;
+        }
+        if ($advanced = request('advanced')) {
+            $order->advanced = $advanced;
+        }
+        if ($additional_info = request('additional_info')) {
+            $order->additional_info = $additional_info;
+        }
+        if ($shipping = request('shipping')) {
+            if ($order->shipping) { // shipping was added previously
+                $order->grand_total = $order->grand_total - $order->shipping + $order->orderDetails->sum('shipping_cost');
+            }
+            $order->shipping = $shipping; // also change grand_total in order
+            $order->grand_total = $order->grand_total + $shipping - $order->orderDetails->sum('shipping_cost');
+        }
+        if (($field = request('field')) && ($value = request('value'))) {
+            $order->shipping_address = json_encode([$field => $value] + json_decode($order->shipping_address, true));
+        }
+        $order->save();
+        return view('backend.sales.edit', compact('order', 'delivery_boys'));
     }
 
     /**
