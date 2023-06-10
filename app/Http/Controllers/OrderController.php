@@ -368,9 +368,7 @@ class OrderController extends Controller
 
             OrderDetail::where('order_id', $order->id)->update(['shipping_cost' => $itemwise_cost]);
 
-            $order->orderDetails = $order->orderDetails->reject(function ($item) use ($od) {
-                return $item->id == $od;
-            });
+            $order->orderDetails->refresh();
         }
         $order_shipping_address = json_decode($order->shipping_address);
         $delivery_boys = User::where('city', $order_shipping_address->city)
