@@ -267,7 +267,10 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <input type="text" class="quantity w-80px text-center py-2" name="quantity[{{$orderDetail->id}}]" data-id="{{$orderDetail->id}}" value="{{ $orderDetail->quantity }}">
+                                        <form action="{{ url()->current() }}">
+                                            <input type="hidden" name="detail" value="{{$orderDetail->id}}">
+                                            <input type="text" class="w-80px text-center py-2" name="quantity" value="{{ $orderDetail->quantity }}">
+                                        </form>
                                     </td>
                                     <td class="text-center">
                                         {{ single_price($orderDetail->price / $orderDetail->quantity) }}
@@ -447,17 +450,6 @@
                 shipping: $(this).val()
             }, function(data) {
                 AIZ.plugins.notify('success', '{{ translate('Shipping cost has been updated') }}');
-                window.location.reload();
-            });
-        });
-        console.log($('.quantity'))
-        $('.quantity').on('change', function() {
-            console.log('change', $(this).val(), $(this).attr('data-id'));
-            $.get('{{ url()->current() }}', {
-                quantity: $(this).val(),
-                detail: $(this).attr('data-id')
-            }, function(data) {
-                AIZ.plugins.notify('success', '{{ translate('Quantity has been updated') }}');
                 window.location.reload();
             });
         });
