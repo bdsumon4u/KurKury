@@ -450,7 +450,7 @@
                 window.location.reload();
             });
         });
-        $('.quantity').on('change', function() {
+        $('input.quantity').on('blur', function() {
             console.log('change', $(this).val(), $(this).attr('data-id'));
             $.get('{{ url()->current() }}', {
                 quantity: $(this).val(),
