@@ -362,15 +362,15 @@ class OrderController extends Controller
             }
             $shipping_cost = $order->orderDetails->sum('shipping_cost');
             $itemwise_cost = $shipping_cost / ($order->orderDetails->count()-1);
-            foreach ($order->orderDetails as $orderDetail) {
-                if ($orderDetail->id == $od) {
-                    $order->grand_total = $order->grand_total - ($orderDetail->price + $orderDetail->tax) * $orderDetail->quantity;
-                    $orderDetail->delete();
-                } else {
-                    $orderDetail->shipping_cost = $itemwise_cost;
-                    $orderDetail->save();
-                }
-            }
+            $toBeDeleted = $order->orderDetails->where('id', $od)->first();
+            $order->grand_total = $order->grand_total - ($toBeDeleted->price + $toBeDeleted->tax) * $toBeDeleted->quantity;
+            $toBeDeleted->delete();
+
+            OrderDetail::where('order_id', $order->id)->update(['shipping_cost' => $itemwise_cost]);
+
+            $order->orderDetails = $order->orderDetails->reject(function ($item) use ($od) {
+                return $item->id == $od;
+            });
         }
         $order_shipping_address = json_decode($order->shipping_address);
         $delivery_boys = User::where('city', $order_shipping_address->city)
