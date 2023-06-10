@@ -367,8 +367,8 @@ class OrderController extends Controller
             $toBeDeleted->delete();
 
             OrderDetail::where('order_id', $order->id)->update(['shipping_cost' => $itemwise_cost]);
-
-            $order->orderDetails->refresh();
+            $order->unsetRelation('orderDetails');
+            $order->load('orderDetails');
         }
         $order_shipping_address = json_decode($order->shipping_address);
         $delivery_boys = User::where('city', $order_shipping_address->city)
